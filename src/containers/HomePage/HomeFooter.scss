@@ -1,0 +1,61 @@
+.main-footer {
+    padding    : 35px 0 0;
+    background : var(--white);
+    font-size  : 14px;
+    line-height: 19px;
+    color      : var(--main-color);
+    border-top : 1px solid #D8D8D8;
+
+    .container {
+        max-width    : 1600px;
+        width        : 100%;
+        padding: 30px 80px;
+
+        .logo-codelearn {
+            img {
+                margin-top: -40px;
+            }
+        }
+
+        .footer-column {
+            h4 {
+                font-size     : 16px;
+                font-weight   : bold;
+                color         : #2c31cf;
+                margin-bottom : 28px;
+                margin-top    : 0;
+                text-transform: uppercase;
+
+
+
+            }
+
+            a {
+                text-decoration: none;
+                color          : black;
+            }
+
+        }
+
+        .social-button {
+            width        : 30px;
+            height       : 30px;
+            border-radius: 3px;
+            margin       : 0 5px 5px 0;
+            display      : inline-block;
+            overflow     : hidden;
+
+            i {
+                display        : flex;
+                justify-content: center;
+                align-items    : center;
+                height         : 100%;
+                transition     : all 300ms;
+
+                font-size: 40px;
+            }
+        }
+    }
+
+
+}

@@ -1,0 +1,66 @@
+{
+    "homeheader": {
+        "support": "Support",
+        "account": "Account",
+        "blog": "Blog",
+        "find-courses": "Find courses",
+        "course": "Course",
+        "learning-roadmap": "Roadmap",
+        "home": "Home",
+        "learning-together": "Learning together",
+        "for-HUTECH-Students": "For HUTECH Students",
+        "search-course": "Find courses specialization",
+        "welcome": "Welcome, ",
+        "view-roadmap": "View the learning path",
+        "view-course": "View Courses",
+        "post-blog": "Post blog"
+    },
+    "menu": {
+        "admin": {
+            "manage-user": "Manage Users",
+            "manage-client": "Manage Client",
+            "manage-admin": "Manage Admin",
+            "crud": "CRUD user",
+            "crud-redux": "CRUD Redux",
+            "course": "Courses",
+            "manage-course": "Manage Courses",
+            "blog": "Blogs",
+            "manage-blog": "Manage Blog",
+            "roadmap": "Roadmaps",
+            "manage-roadmap": "Manage Roadmap",
+            "manage-detail-course": "Manage Detail Courses"
+        }
+    },
+    "manage-user": {
+        "add": "Add a new user",
+        "email": "Email",
+        "password": "Password",
+        "first-name": "First name",
+        "last-name": "Last name",
+        "phone-number": "Phone number",
+        "address": "Address",
+        "image": "Avatar",
+        "role": "Role",
+        "gender": "Gender",
+        "save": "Save",
+        "edit": "Update",
+        "action": "Action"
+    },
+    "manage-course": {
+        "add": "Add a new course",
+        "nameCourse": "Name course",
+        "lecturers": "Lecturers",
+        "detail": "Detail",
+        "describe": "Describe",
+        "price": "Price",
+        "soldquantity": "Soldquantity",
+        "image": "Avatar",
+        "save": "Save",
+        "edit": "Update",
+        "action": "Action"
+    },
+    "homepage": {
+        "standing-course": "Featured course last week",
+        "more-infor": "More infor"
+    }
+}

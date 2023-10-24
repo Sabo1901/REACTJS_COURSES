@@ -1,0 +1,30 @@
+
+
+.img-customize{
+   
+    .nameCourse{
+        font-size: 1.5rem;
+        color: #2d2f31;
+        font-weight: inherit;
+        text-align: center;
+        line-height: 1.2;
+        letter-spacing: -.02rem;
+        margin-top: 10px;
+        font-weight: 700;
+    }
+    .price{
+        align-items: center;
+        color: #2d2f31;
+        flex-flow: row wrap;
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: -.02rem;
+        font-size: 1.2rem;
+    }
+    .lecturers{
+        font-weight: 400;
+    line-height: 1.8;
+    font-size: 1.0rem;
+    color: #6a6f73;
+    }
+}

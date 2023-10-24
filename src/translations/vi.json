@@ -1,0 +1,66 @@
+{
+    "homeheader": {
+        "support": "Hỗ trợ",
+        "account": "Tài khoản",
+        "blog": "Bài viết",
+        "find-courses": "Tìm khóa học",
+        "course": "Khóa học",
+        "learning-roadmap": "Lộ trình",
+        "home": "Trang chủ",
+        "learning-together": "HỌC TẬP CÙNG NHAU",
+        "for-HUTECH-Students": "DÀNH CHO SINH VIÊN HUTECH",
+        "search-course": "Tìm khóa học theo chuyên ngành",
+        "view-roadmap": "Xem lộ trình học",
+        "view-course": "Xem khóa học",
+        "welcome": "Xin chào, ",
+        "post-blog": "Đăng bài viết"
+    },
+    "menu": {
+        "admin": {
+            "manage-user": "Quản lý người dùng",
+            "manage-client": "Quản lý khách hàng",
+            "manage-admin": "Quản lý admin",
+            "crud": "CRUD user",
+            "crud-redux": "CRUD Redux",
+            "course": "Khóa học",
+            "manage-course": "Quản lý khóa học",
+            "blog": "Bài viết",
+            "manage-blog": "Quản lý bài viết",
+            "roadmap": "Lộ trình",
+            "manage-roadmap": "Quản lý lộ trình",
+            "manage-detail-course": "Quản lý chi tiết khóa học"
+        }
+    },
+    "manage-user": {
+        "add": "Thêm mới người dùng",
+        "email": "Email",
+        "password": "Mật khẩu",
+        "first-name": "Tên",
+        "last-name": "Họ",
+        "phone-number": "Số điện thoại",
+        "address": "Địa chỉ",
+        "image": "Ảnh đại diện",
+        "role": "Vai trò",
+        "gender": "Giới tính",
+        "save": "Lưu",
+        "edit": "Cập nhật",
+        "action": "Thao tác"
+    },
+    "manage-course": {
+        "add": "Thêm mới khóa học",
+        "nameCourse": "Tên khóa học",
+        "lecturers": "Người giảng dạy",
+        "detail": "Chi tiết",
+        "describe": "Mô tả",
+        "price": "Giá tiền",
+        "soldquantity": "Số lượng đã bán",
+        "image": "Ảnh đại diện",
+        "save": "Lưu",
+        "edit": "Cập nhật",
+        "action": "Thao tác"
+    },
+    "homepage": {
+        "standing-course": "Khóa học nổi bật tuần qua",
+        "more-infor": "Xem thêm"
+    }
+}
