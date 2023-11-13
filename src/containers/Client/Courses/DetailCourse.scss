@@ -31,6 +31,58 @@
 //     }
 // }
 
+.btn-13:after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    border-radius: 5px;
+    background-color: #3054f5;
+    background-image: linear-gradient(315deg, #4d9bcc 0%, #225caf 74%);
+    box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
+    transition: all 0.3s ease;
+}
+
+.btn-13:hover {
+    color: #fff;
+}
+
+    .btn-13:hover:after {
+        top: 0;
+        height: 100%;
+    }
+
+.btn-13:active {
+    top: 2px;
+}
+.custom-btn {
+width: 130px;
+height: 40px;
+color: #ffffff;
+border-radius: 5px;
+padding: 10px 10px;
+font-family: 'Lato', sans-serif;
+font-weight: 500;
+background: transparent;
+cursor: pointer;
+transition: all 0.3s ease;
+position: relative;
+display: inline-block;
+box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5), 7px 7px 20px 0px rgba(0,0,0,.1), 4px 4px 5px 0px rgba(0,0,0,.1);
+
+outline: none;
+}
+.btn-13 {
+background-color: #000f5a;
+background-image: linear-gradient(315deg, #1a45777d 0%, #2357f6 74%);
+border: none;
+z-index: 1;
+
+}
+
 body {
     font-family: var(--system-ui);
 }
@@ -135,7 +187,7 @@ body {
 .chitiet_course {
     border-bottom: 1px solid rgba(0,0,0,.05);
     color: var(--text-color);
-    font-size: 1.4rem;
+    font-size: 14px;
     line-height: 48px;
     overflow: hidden;
     padding: 0 30px 0 48px;
@@ -189,7 +241,7 @@ body {
 .Course_detail li {
     
     color: #494949;
-    font-size: 1.4rem;
+    font-size: 14px;
     line-height: 1.6;
     margin-bottom: 10px;
     padding-left: 35px;
@@ -237,7 +289,7 @@ body {
 }
 .modal-title h3 {
     color: #333;
-    font-size: 1.4rem;
+    font-size: 14px;
     font-weight: 600;
 }
 
@@ -314,7 +366,7 @@ ul {
 .Course_mota li {
     color: #333;
     flex-basis: 50%;
-    font-size: 1.4rem;
+    font-size: 14px;
     line-height: 1.6;
     margin-bottom: 12px;
     padding: 0 24px;

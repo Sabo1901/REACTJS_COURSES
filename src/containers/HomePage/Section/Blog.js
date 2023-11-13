@@ -1,15 +1,44 @@
 import React, { Component } from 'react';
-
+import './Specialty.scss';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import Slider from "react-slick";
-import specialtyImg from "../../../assets/nodejs.png"
+import * as actions from '../../../store/actions';
+import specialtyImg from "../../../assets/nodejs.png";
+import { withRouter } from 'react-router';
 class Blog extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            arrBlogs: []
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.topBlogsRedux !== this.props.topBlogsRedux) {
+            this.setState({
+                arrBlogs: this.props.topBlogsRedux
+            })
+        }
+    }
+
+    componentDidMount() {
+        this.props.loadTopBlogs();
+    }
+    handleViewDetailBlog = (blog) => {
+        if (this.props.history) {
+            this.props.history.push(`/detailblog/${blog.id}`)
+        }
+
+    }
+
+
 
     render() {
-
+        let arrBlogs = this.state.arrBlogs;
+        console.log('test:', this.props.topBlogsRedux)
         return (
-            <div className='section-share section-blog'>
+            <div className='section-share section-blog' style={{ height: '310px' }}>
                 <div className='section-container'>
                     <div className='section-header'>
                         <span className='title-section'>Bài viết nhiều tương tác</span>
@@ -19,34 +48,21 @@ class Blog extends Component {
                     <div className='section-body'>
                         <Slider {...this.props.settings}>
 
-                            <div className='img-customize'>
-                                <img src={specialtyImg} />
-                                <div>Tìm hiểu về JavaScrip</div>
-                            </div>
-                            <div className='img-customize'>
-                                <img src={specialtyImg} />
-                                <div>Tìm hiểu về JavaScrip</div>
-                            </div>
-                            <div className='img-customize'>
-                                <img src={specialtyImg} />
-                                <div>Tìm hiểu về JavaScrip</div>
-                            </div>
-                            <div className='img-customize'>
-                                <img src={specialtyImg} />
-                                <div>Tìm hiểu về JavaScrip</div>
-                            </div>
-                            <div className='img-customize'>
-                                <img src={specialtyImg} />
-                                <div>Tìm hiểu về JavaScrip</div>
-                            </div>
-                            <div className='img-customize'>
-                                <img src={specialtyImg} />
-                                <div>Khóa học Code Online</div>
-                            </div>
-                            <div className='img-customize'>
-                                <img src={specialtyImg} />
-                                <div>Khóa học Code Online</div>
-                            </div>
+                            {arrBlogs && arrBlogs.length > 0
+                                && arrBlogs.map((item, index) => {
+                                    let imageBase64 = '';
+                                    if (item.image) {
+                                        imageBase64 = new Buffer(item.image, 'base64').toString('binary');
+                                    }
+                                    let name = ``;
+                                    return (
+                                        <div className='img-customize' key={index} onClick={() => this.handleViewDetailBlog(item)}>
+                                            <img src={imageBase64} />
+                                            <div className='nameCourse'>{item.title}</div>
+                                        </div>
+                                    )
+                                })}
+
 
                         </Slider>
                     </div>
@@ -61,13 +77,15 @@ class Blog extends Component {
 
 const mapStateToProps = state => {
     return {
-        isLoggedIn: state.user.isLoggedIn
+        isLoggedIn: state.user.isLoggedIn,
+        topBlogsRedux: state.admin.topBlogs
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
+        loadTopBlogs: () => dispatch(actions.fetchTopBlog())
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Blog);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Blog));

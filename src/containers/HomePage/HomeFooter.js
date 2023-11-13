@@ -8,7 +8,7 @@ class HomeFooter extends Component {
     render() {
 
         return (
-            <div className='home-footer'>
+            <div className='home-footer' style={{ display: 'inline-block' }}>
                 <div class=" main-footer">
                     <div class="container">
                         <div class="row">

@@ -6,7 +6,14 @@ const initialState = {
     roles: [],
     users: [],
     courses: [],
-    topCourses: []
+    blogs: [],
+    topCourses: [],
+    topBlogs: [],
+    blogsUser: [],
+    videos: [],
+    videosCourse: [],
+    roadmap: [],
+    scholastics: [],
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -72,6 +79,76 @@ const adminReducer = (state = initialState, action) => {
             }
         case actionTypes.FETCH_TOP_COURSES_FAILDED:
             state.topCourses = [];
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_BLOGS_SUCCESS:
+            state.blogs = action.blogs;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_BLOGS_FAILDED:
+            state.blogs = [];
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_TOP_BLOGS_SUCCESS:
+            state.topBlogs = action.datablogs;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_TOP_BLOGS_FAILDED:
+            state.topBlogs = [];
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_BLOGS_USER_SUCCESS:
+            state.blogsUser = action.blogs;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_BLOGS_USER_FAILDED:
+            state.blogsUser = [];
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_VIDEOS_SUCCESS:
+            state.videos = action.videos;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_VIDEOS_FAILDED:
+            state.videos = [];
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_VIDEOS_COURSE_SUCCESS:
+            state.videosCourse = action.videosCourse;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_VIDEOS_COURSE_FAILDED:
+            state.videosCourse = [];
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_ROADMAPS_SUCCESS:
+            state.roadmap = action.roadmap;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_ROADMAPS_FAILDED:
+            state.roadmap = [];
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_SCHOLASTICS_SUCCESS:
+            state.scholastics = action.scholastics;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_SCHOLASTICS_FAILDED:
+            state.scholastics = [];
             return {
                 ...state
             }

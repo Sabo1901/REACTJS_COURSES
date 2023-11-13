@@ -21,13 +21,15 @@
             "manage-client": "Quản lý khách hàng",
             "manage-admin": "Quản lý admin",
             "crud": "CRUD user",
-            "crud-redux": "CRUD Redux",
+            "crud-redux": "Quản lý người dùng",
             "course": "Khóa học",
             "manage-course": "Quản lý khóa học",
+            "manage-video": "Quản lý bài giảng",
             "blog": "Bài viết",
             "manage-blog": "Quản lý bài viết",
             "roadmap": "Lộ trình",
             "manage-roadmap": "Quản lý lộ trình",
+            "manage-scholastic": "Quản lý khóa SV",
             "manage-detail-course": "Quản lý chi tiết khóa học"
         }
     },
@@ -52,8 +54,8 @@
         "lecturers": "Người giảng dạy",
         "detail": "Chi tiết",
         "describe": "Mô tả",
-        "price": "Giá tiền",
-        "soldquantity": "Số lượng đã bán",
+        "tantamount": "HP tương đương",
+        "viewed": "Số lượng đã học",
         "image": "Ảnh đại diện",
         "save": "Lưu",
         "edit": "Cập nhật",
@@ -62,5 +64,23 @@
     "homepage": {
         "standing-course": "Khóa học nổi bật tuần qua",
         "more-infor": "Xem thêm"
+    },
+    "manage-video": {
+        "add": "Thêm mới bài giảng",
+        "courseId": "Khóa học",
+        "linkVideo": "Đường dẫn video",
+        "chapter": "Chương",
+        "titleArticle": "Tiêu đề"
+    },
+    "manage-roadmap": {
+        "scholastic": "Khóa năm học",
+        "credit": "Tín chỉ",
+        "prerequisiteId": "Chi tiết",
+        "image": "Ảnh lộ trình",
+        "course": "Khóa năm học",
+        "semester": "Học kì",
+        "prerequisite": "Mã học phần tiên quyết",
+        "courseId": "Khóa học",
+        "scholasticId": "Khóa năm học"
     }
 }

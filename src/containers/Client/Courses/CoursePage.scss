@@ -1,0 +1,266 @@
+
+.containter {
+    position: absolute; /* Thiết lập vị trí tuyệt đối */
+   
+    width: 100%; /* Thiết lập chiều rộng bằng với chiều rộng của wrapper */
+    height: 50px; /* Thiết lập chiều cao của thanh ngang */
+    background-color: #333; /* Thiết lập màu nền cho thanh ngang */
+}
+.vertical-bar {
+    position: absolute; /* Thiết lập vị trí tuyệt đối */
+    top: 50px; /* Thiết lập thanh dọc bắt đầu từ sau thanh ngang */
+    left: 0; /* Thiết lập thanh dọc ở bên trái */
+    width: auto; /* Thiết lập chiều rộng của thanh dọc */
+    height: 100%; /* Thiết lập chiều cao bằng với chiều cao của wrapper */
+    background-color: #666; /* Thiết lập màu nền cho thanh dọc */
+}
+
+.navbar {
+    display: flex; /* Sử dụng flexbox */
+    position: fixed; /* Sử dụng vị trí cố định */
+    width: auto; /* Thiết lập chiều rộng bằng với toàn bộ chiều rộng trang */
+    background-color: #ffff; /* Thiết lập màu nền */
+    margin-top: 35px;
+    height: 100%;
+}
+
+.menu-items {
+    /*display: flex;*/ /* Sử dụng flexbox */
+    flex-direction: column; /* Thiết lập hướng dọc cho các mục menu */
+    justify-content: center; /* Các mục menu được căn giữa */
+    align-items: center; /* Các mục menu được căn giữa */
+    height: 100%; /* Thiết lập chiều cao bằng với chiều cao của trang */
+    padding: 10px; /* Thiết lập đệm cho các mục menu */
+}
+a{
+    text-decoration: none;
+}
+
+    .menu-items a {
+        color: #000f;
+        font-size: 11px;
+        text-decoration: none; /*Bỏ gạch chân dưới chữ */
+        margin: 10px -40px;
+    }
+.menu-items ul {
+    list-style: none;
+    margin-top: 50px;
+    margin-left: 10px;
+}
+
+.Sidebar_itemBtn__Q78b7 {
+    align-items: center;
+    background-color: #fff;
+    border-radius: 16px;
+    color: #404040;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 72px;
+    justify-content: center;
+    width: 72px;
+}
+    .menu_doc a {
+        font-size: 11px;
+        font-weight: 600;
+        margin-top: 6px;
+    }
+    .menu_doc{
+        margin-top:15px;
+    }
+.active {
+    //background-color: #e8ebed;
+    color: #1a1a1a;
+}
+    .Sidebar_itemBtn__Q78b7:hover {
+    background-color: #f5f5f5;
+    color: #1a1a1a;
+}
+    .Slideshow_right__1lu8d {
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    font-size: 16px;
+    justify-content: center;
+    line-height: 1.6;
+    max-width: 100%;
+    padding: 0 36px 36px;
+    width: 640px;
+    display: flex;
+    flex: 3 1;
+    justify-content: flex-end;
+}
+.Slideshow_ctaBtn__xcyon {
+    border: 2px solid #fff;
+    border-radius: 16px;
+    color: #fff;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+    min-width: 124px;
+    padding: 4px 10px;
+    text-align: center;
+    transition: .2s ease;
+}
+.Slideshow_heading__fHSLk a {
+    color: #fff;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.5;
+    text-decoration: none;
+}
+.carousel-control.left {
+    background-image: none;
+}
+.carousel-control.right {
+    background-image: none;
+}
+.Slideshow_left__jdrc- {
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    font-size: 16px;
+    justify-content: center;
+    line-height: 1.6;
+    max-width: 100%;
+    padding: 0 36px 36px;
+    width: 640px;
+    height: 300px;
+}
+.Slideshow_arrow__GTGXj {
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 3px 6px rgba(0,0,0,.16);
+    color: #4b4b4b;
+    cursor: pointer;
+    font-size: 12px;
+    height: 32px;
+    line-height: 32px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 32px;
+    z-index: 1;
+    margin-top: -25px;
+    margin-left: -15px;
+}
+.Home_wrapper__53Los {
+    margin-top: 70px;
+    overflow: hidden;
+    padding: 0 0 74px;
+    width: 1260px;
+   // margin-left: -20px;
+}
+.ScrollList_sub-heading__4Ymiv {
+    color: #82919b;
+    font-size: 14px;
+    margin-bottom: 0;
+}
+.ScrollList_heading__BYEXH {
+    color: #242424;
+    font-size: 24px;
+    font-weight: 900;
+    margin-right: auto;
+    margin-top: 16px;
+}
+.ScrollList_view-all__MTYc1 {
+    background-color: transparent;
+    color: #2b6eeb;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    margin-right: 4px;
+    padding: 8px 0 8px 8px;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.index-module_col__2EQm9 {
+    padding-left: 12px;
+    padding-right: 12px;
+}
+.index-module_l-3__MjWvb {
+    width: 25%;
+}
+.CommonItem_thumb__ew8Jj {
+    background-color: rgba(0,0,0,.1);
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 16px;
+    display: block;
+    object-fit: cover;
+    overflow: hidden;
+    padding-top: 56.25%;
+    position: relative;
+    width: 100%;
+}
+.CommonItem_cta-btn__OK\+oX {
+    background-color: #fff;
+    border-color: #fff;
+    color: #000;
+    left: 50%;
+    opacity: 0;
+    position: absolute;
+    top: 60%;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    transition: all .3s ease 0s;
+    visibility: hidden;
+    z-index: 1;
+}
+.Button_btn__RW1e2 {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    border: 1px solid #fff;
+    border-radius: 999px !important;
+    color: #02080d;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 550;
+    outline: none;
+    padding: 7px 10px;
+    text-align: center;
+    transition: .3s ease;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    white-space: nowrap;
+    margin-top: -12px;
+}
+.CommonItem_thumb__ew8Jj.CommonItem_has-link__VLLrX:after {
+    background-color: rgba(0,0,0,.32);
+    border-radius: 16px;
+    content: "";
+    inset: 0;
+    opacity: 0;
+    position: absolute;
+    transition: all .3s ease 0s;
+    visibility: hidden;
+}
+.CommonItem_thumb__ew8Jj.CommonItem_has-link__VLLrX:hover .CommonItem_cta-btn__OK\+oX, .CommonItem_thumb__ew8Jj.CommonItem_has-link__VLLrX:hover:after {
+    opacity: 1;
+    visibility: visible;
+}
+.CommonItem_title__EpYrE a, .CommonItem_title__EpYrE span {
+    word-wrap: break-word;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    color: #292929;
+    display: -webkit-box;
+    font-size: 16px;
+    line-height: 1.4;
+    overflow: hidden;
+    text-decoration: none;
+}
+.CourseItem_students-count__92kIg {
+    color: #666;
+    font-size: 14px;
+}
+.NavBar_loginBtn__5DxZL:hover{
+    color: #fff;
+}
+

@@ -27,11 +27,14 @@ class Specialty extends Component {
         this.props.loadTopCourses();
     }
     handleViewDetailCourse = (course) => {
-        this.props.history.push(`/detail-course/${course.id}`)
+        if (this.props.history) {
+            this.props.history.push(`/detail-course/${course.id}`)
+        }
+
     }
     render() {
         let arrCourses = this.state.arrCourses;
-        // arrCourses = arrCourses.concat(arrCourses).concat(arrCourses)
+
         return (
             <div className='section-share section-specialty'>
                 <div className='section-container'>
@@ -60,7 +63,7 @@ class Specialty extends Component {
                                             <div className='nameCourse'>{item.nameCourse}</div>
                                             <div className='lecturers'>{item.lecturers}</div>
                                             <div className='lecturers'>20 bài giảng</div>
-                                            <span className='price'>₫&nbsp;{item.price}</span>
+
                                         </div>
                                     )
                                 })}

@@ -25,7 +25,7 @@ class HomePage extends Component {
                 <Specialty settings={settings} />
                 <Blog settings={settings} />
                 <About />
-                <HomeFooter />
+                <HomeFooter isShowBanner={true} />
             </div>
         );
     }

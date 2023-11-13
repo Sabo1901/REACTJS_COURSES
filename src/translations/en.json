@@ -24,10 +24,12 @@
             "crud-redux": "CRUD Redux",
             "course": "Courses",
             "manage-course": "Manage Courses",
+            "manage-video": "Manage Video",
             "blog": "Blogs",
             "manage-blog": "Manage Blog",
             "roadmap": "Roadmaps",
             "manage-roadmap": "Manage Roadmap",
+            "manage-scholastic": "Manage Scholastic",
             "manage-detail-course": "Manage Detail Courses"
         }
     },
@@ -52,8 +54,8 @@
         "lecturers": "Lecturers",
         "detail": "Detail",
         "describe": "Describe",
-        "price": "Price",
-        "soldquantity": "Soldquantity",
+        "tantamount": "Tantamount",
+        "viewed": "Viewed",
         "image": "Avatar",
         "save": "Save",
         "edit": "Update",
@@ -62,5 +64,23 @@
     "homepage": {
         "standing-course": "Featured course last week",
         "more-infor": "More infor"
+    },
+    "manage-video": {
+        "add": "Add a new Video",
+        "courseId": "Course",
+        "linkVideo": "Link video",
+        "chapter": "Chapter",
+        "titleArticle": "Title Article"
+    },
+    "manage-roadmap": {
+        "scholastic": "Scholastic",
+        "credit": "credit",
+        "prerequisiteId": "Detail",
+        "image": "Diagram",
+        "course": "Khóa năm học",
+        "semester": "semester",
+        "prerequisite": "PrerequisiteId",
+        "courseId": "Course",
+        "scholasticId": "Year student"
     }
 }

@@ -31,6 +31,9 @@ export const adminMenu = [
             {
                 name: 'menu.admin.manage-detail-course', link: '/system/manage-course'
             },
+            {
+                name: 'menu.admin.manage-video', link: '/system/video-redux'
+            },
 
         ]
     },
@@ -38,9 +41,11 @@ export const adminMenu = [
         name: 'menu.admin.roadmap',
         menus: [
             {
-                name: 'menu.admin.manage-roadmap', link: '/system/manage-roadmap'
+                name: 'menu.admin.manage-roadmap', link: '/system/roadmap-redux'
             },
-
+            {
+                name: 'menu.admin.manage-scholastic', link: '/system/scholastic-redux'
+            },
         ]
     },
     { //quản lý cẩm nang

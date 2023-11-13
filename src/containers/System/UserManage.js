@@ -124,7 +124,7 @@ class UserManage extends Component {
                     />
                 }
                 <div className='title text-center'>
-                    MANAGE USER WITH HNGUXN
+                    QUẢN LÝ THÔNG TIN NGƯỜI DÙNG
                 </div>
                 <div className='mx-1'>
                     <button className='btn btn-primary px-3'

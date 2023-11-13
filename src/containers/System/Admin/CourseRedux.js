@@ -24,8 +24,8 @@ class CourseRedux extends Component {
             lecturers: '',
             detail: '',
             describe: '',
-            price: '',
-            soldquantity: '',
+            tantamount: '',
+            viewed: '',
             avatar: '',
 
 
@@ -43,8 +43,8 @@ class CourseRedux extends Component {
                 lecturers: '',
                 detail: '',
                 describe: '',
-                price: '',
-                soldquantity: '',
+                tantamount: '',
+                viewed: '',
                 avatar: '',
                 action: CRUD_ACTIONS.CREATE,
                 previewImgURL: '',
@@ -80,8 +80,8 @@ class CourseRedux extends Component {
                 lecturers: this.state.lecturers,
                 detail: this.state.detail,
                 describe: this.state.describe,
-                price: this.state.price,
-                soldquantity: this.state.soldquantity,
+                tantamount: this.state.tantamount,
+                viewed: this.state.viewed,
                 avatar: this.state.avatar
             })
         }
@@ -92,8 +92,8 @@ class CourseRedux extends Component {
                 lecturers: this.state.lecturers,
                 detail: this.state.detail,
                 describe: this.state.describe,
-                price: this.state.price,
-                soldquantity: this.state.soldquantity,
+                tantamount: this.state.tantamount,
+                viewed: this.state.viewed,
                 avatar: this.state.avatar
             })
         }
@@ -101,7 +101,7 @@ class CourseRedux extends Component {
 
     checkValidateInput = () => {
         let isValid = true;
-        let arrCheck = ['nameCourse', 'lecturers', 'detail', 'describe', 'price', 'soldquantity']
+        let arrCheck = ['nameCourse', 'lecturers', 'detail', 'describe', 'tantamount', 'viewed']
         for (let i = 0; i < arrCheck.length; i++) {
             if (!this.state[arrCheck[i]]) {
                 isValid = false;
@@ -132,8 +132,8 @@ class CourseRedux extends Component {
             lecturers: course.lecturers,
             detail: course.detail,
             describe: course.describe,
-            price: course.price,
-            soldquantity: course.soldquantity,
+            tantamount: course.tantamount,
+            viewed: course.viewed,
             previewImgURL: imageBase64,
             avatar: '',
             action: CRUD_ACTIONS.EDIT,
@@ -144,7 +144,7 @@ class CourseRedux extends Component {
 
     render() {
         let language = this.props.language;
-        let { nameCourse, lecturers, detail, describe, price, soldquantity, avatar } = this.state;
+        let { nameCourse, lecturers, detail, describe, tantamount, viewed, avatar } = this.state;
 
         return (
 
@@ -186,17 +186,17 @@ class CourseRedux extends Component {
                                 />
                             </div>
                             <div className='col-3'>
-                                <label><FormattedMessage id="manage-course.soldquantity" /></label>
+                                <label><FormattedMessage id="manage-course.viewed" /></label>
                                 <input className='form-control' type='text'
-                                    value={soldquantity}
-                                    onChange={(event) => { this.onChangeInput(event, 'soldquantity') }}
+                                    value={viewed}
+                                    onChange={(event) => { this.onChangeInput(event, 'viewed') }}
                                 />
                             </div>
                             <div className='col-3'>
-                                <label><FormattedMessage id="manage-course.price" /></label>
+                                <label><FormattedMessage id="manage-course.tantamount" /></label>
                                 <input className='form-control' type='text'
-                                    value={price}
-                                    onChange={(event) => { this.onChangeInput(event, 'price') }}
+                                    value={tantamount}
+                                    onChange={(event) => { this.onChangeInput(event, 'tantamount') }}
                                 />
                             </div>
                             <div className='col-3'>

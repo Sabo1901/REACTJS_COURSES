@@ -4,8 +4,17 @@ export const addUserSuccess = () => ({
     type: actionTypes.ADD_USER_SUCCESS
 })
 
+export const addClientSuccess = () => ({
+    type: actionTypes.ADD_CLIENT_SUCCESS
+})
+
 export const userLoginSuccess = (userInfo) => ({
     type: actionTypes.USER_LOGIN_SUCCESS,
+    userInfo: userInfo
+})
+
+export const userClientLoginSuccess = (userInfo) => ({
+    type: actionTypes.USER_CLIENT_LOGIN_SUCCESS,
     userInfo: userInfo
 })
 

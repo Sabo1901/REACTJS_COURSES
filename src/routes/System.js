@@ -4,6 +4,10 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import UserManage from '../containers/System/UserManage';
 import UserRedux from '../containers/System/Admin/UserRedux';
 import CourseRedux from '../containers/System/Admin/CourseRedux';
+import VideoRedux from '../containers/System/Admin/Video/VideoRedux';
+import BlogRedux from '../containers/System/Admin/Blog/BlogRedux';
+import ScholasticRedux from '../containers/System/Admin/Roadmap/ScholasticRedux';
+import RoadmapRedux from '../containers/System/Admin/Roadmap/RoadmapRedux';
 import Header from '../containers/Header/Header';
 import ManageCourse from '../containers/System/Admin/ManageCourse';
 class System extends Component {
@@ -20,6 +24,10 @@ class System extends Component {
                             <Route path="/system/user-redux" component={UserRedux} />
                             <Route path="/system/course-redux" component={CourseRedux} />
                             <Route path="/system/manage-course" component={ManageCourse} />
+                            <Route path="/system/manage-blog" component={BlogRedux} />
+                            <Route path="/system/video-redux" component={VideoRedux} />
+                            <Route path="/system/scholastic-redux" component={ScholasticRedux} />
+                            <Route path="/system/roadmap-redux" component={RoadmapRedux} />
                             <Route component={() => { return (<Redirect to={systemMenuPath} />) }} />
                         </Switch>
                     </div>

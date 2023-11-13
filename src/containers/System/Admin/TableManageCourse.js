@@ -21,7 +21,7 @@ function handleEditorChange({ html, text }) {
 }
 
 
-class TableManageUser extends Component {
+class TableManageCourse extends Component {
 
     constructor(props) {
         super(props);
@@ -60,8 +60,8 @@ class TableManageUser extends Component {
                             <th><FormattedMessage id="manage-course.lecturers" /></th>
                             <th><FormattedMessage id="manage-course.detail" /></th>
                             <th><FormattedMessage id="manage-course.describe" /></th>
-                            <th><FormattedMessage id="manage-course.price" /></th>
-                            <th><FormattedMessage id="manage-course.soldquantity" /></th>
+                            <th><FormattedMessage id="manage-course.tantamount" /></th>
+                            <th><FormattedMessage id="manage-course.viewed" /></th>
                             <th><FormattedMessage id="manage-course.action" /></th>
                         </tr>
                         {arrCourses && arrCourses.length > 0 &&
@@ -72,8 +72,8 @@ class TableManageUser extends Component {
                                         <td>{item.lecturers}</td>
                                         <td>{item.detail}</td>
                                         <td>{item.describe}</td>
-                                        <td>{item.price}</td>
-                                        <td>{item.soldquantity}</td>
+                                        <td>{item.tantamount}</td>
+                                        <td>{item.viewed}</td>
                                         <td>
                                             <button className='btn-edit' onClick={() => this.handleEditCourse(item)}><i className="fas fa-pencil-alt"></i></button>
                                             <button className='btn-delete' onClick={() => this.handleDeleteCourse(item)}><i className="fas fa-trash-alt"></i></button>
@@ -85,7 +85,7 @@ class TableManageUser extends Component {
 
                     </tbody>
                 </table>
-                <MdEditor style={{ height: '500px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
+                {/* <MdEditor style={{ height: '500px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} /> */}
 
             </React.Fragment>
 
@@ -107,4 +107,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TableManageUser);
+export default connect(mapStateToProps, mapDispatchToProps)(TableManageCourse);
