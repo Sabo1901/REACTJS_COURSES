@@ -28,10 +28,10 @@ class UserRedux extends Component {
             gender: '',
             role: '',
             avatar: '',
-
+            scholasticId: '',
             action: '',
             userEditId: '',
-
+            scholasticArr: [],
         }
     }
 
@@ -39,17 +39,7 @@ class UserRedux extends Component {
 
         this.props.getGenderStart();
         this.props.getRoleStart();
-        // try {
-        //     let res = await getAllCodeService('gender');
-        //     if (res && res.errCode === 0) {
-        //         this.setState({
-        //             genderArr: res.data
-        //         })
-        //     }
-
-        // } catch (e) {
-        //     console.log(e)
-        // }
+        this.props.fetchScholasticRedux();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -67,18 +57,28 @@ class UserRedux extends Component {
                 role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : ''
             })
         }
+        if (prevProps.scholastics !== this.props.scholastics) {
+            let arrScholastics = this.props.scholastics;
+            this.setState({
+                scholasticArr: arrScholastics,
+                scholasticId: arrScholastics && arrScholastics.length > 0 ? arrScholastics[0].id : ''
+            })
+        }
         if (prevProps.listUsers !== this.props.listUsers) {
             let arrRoles = this.props.roleRedux;
             let arrGenders = this.props.genderRedux;
+            let arrScholastics = this.props.scholastics;
             this.setState({
                 email: '',
                 password: '',
                 firstName: '',
                 lastName: '',
                 phonenumber: '',
+                scholasticId: '',
                 address: '',
                 gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].keyMap : '',
                 role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : '',
+                scholasticId: arrScholastics && arrScholastics.length > 0 ? arrScholastics[0].id : '',
                 avatar: '',
                 action: CRUD_ACTIONS.CREATE,
                 previewImgURL: '',
@@ -118,6 +118,7 @@ class UserRedux extends Component {
                 phonenumber: this.state.phonenumber,
                 gender: this.state.gender,
                 roleId: this.state.role,
+                scholasticId: this.state.scholasticId,
                 avatar: this.state.avatar
             })
         }
@@ -131,6 +132,7 @@ class UserRedux extends Component {
                 address: this.state.address,
                 phonenumber: this.state.phonenumber,
                 gender: this.state.gender,
+                scholasticId: this.state.scholasticId,
                 roleId: this.state.role,
                 avatar: this.state.avatar
             })
@@ -174,6 +176,7 @@ class UserRedux extends Component {
             address: user.address,
             gender: user.gender,
             role: user.roleId,
+            scholasticId: user.scholasticId,
             avatar: '',
             previewImgURL: imageBase64,
             action: CRUD_ACTIONS.EDIT,
@@ -187,8 +190,8 @@ class UserRedux extends Component {
         let language = this.props.language;
         let roles = this.state.roleArr;
         let isGetGender = this.props.isLoadingGender;
-
-        let { email, password, firstName, lastName, phonenumber, address, gender, role, avatar } = this.state;
+        let scholastics = this.state.scholasticArr;
+        let { email, password, firstName, lastName, phonenumber, address, scholasticId, gender, role, avatar } = this.state;
 
         return (
 
@@ -256,6 +259,22 @@ class UserRedux extends Component {
                                             return (
                                                 <option key={index} value={item.keyMap}>
                                                     {language === LANGUAGES.VI ? item.valueVi : item.valueEn}
+                                                </option>
+                                            )
+                                        })}
+                                </select>
+                            </div>
+                            <div className='col-3'>
+                                <label><FormattedMessage id="manage-roadmap.scholasticId" /></label>
+                                <select className='form-control'
+                                    onChange={(event) => { this.onChangeInput(event, 'scholasticId') }}
+                                    value={scholasticId}
+                                >
+                                    {scholastics && scholastics.length > 0 &&
+                                        scholastics.map((item, index) => {
+                                            return (
+                                                <option key={index} value={item.id}>
+                                                    {item.scholastic}
                                                 </option>
                                             )
                                         })}
@@ -336,7 +355,8 @@ const mapStateToProps = state => {
         genderRedux: state.admin.genders,
         roleRedux: state.admin.roles,
         isLoadingGender: state.admin.isLoadingGender,
-        listUsers: state.admin.users
+        listUsers: state.admin.users,
+        scholastics: state.admin.scholastics
     };
 };
 
@@ -346,7 +366,8 @@ const mapDispatchToProps = dispatch => {
         getRoleStart: () => dispatch(actions.fetchRoleStart()),
         createNewUser: (data) => dispatch(actions.createNewUser(data)),
         fetchUserRedux: () => dispatch(actions.fetchAllUsersStart()),
-        editAUserRedux: (data) => dispatch(actions.editAUser(data))
+        editAUserRedux: (data) => dispatch(actions.editAUser(data)),
+        fetchScholasticRedux: () => dispatch(actions.fetchAllScholasticsStart()),
     };
 };
 

@@ -12,7 +12,7 @@ import {
     createNewVideoService, editVideoService,
     deleteVideoService, getAllVideosCourse,
     getAllRoadmaps, createNewRoadmapService,
-    editRoadmapService, deleteRoadmapService,
+    editRoadmapService, deleteRoadmapService, getRoadmaps,
     getAllScholastics, createNewScholasticService,
     editScholasticService, deleteScholasticService
 } from "../../services/courseService";
@@ -630,15 +630,15 @@ export const deleteABlog = (blogId) => {
 
             let res = await deleteBlogService(blogId);
             if (res && res.errCode === 0) {
-                toast.success("Delete Video succeed");
+                toast.success("Delete Blog succeed");
                 dispatch(deleteBlogSuccess());
-
+                dispatch(fetchAllBlogsStart());
             } else {
-                toast.error("Delete Video error!");
+                toast.error("Delete Blog error!");
                 dispatch(deleteBlogFailed());
             }
         } catch (e) {
-            toast.error("Delete Video error!");
+            toast.error("Delete Blog error!");
             dispatch(deleteBlogFailed());
         }
     }
@@ -649,12 +649,12 @@ export const deleteABlogUser = (blogId) => {
         try {
             let res = await deleteBlogService(blogId);
             if (res && res.errCode === 0) {
-                toast.success("Delete Video succeed");
+                toast.success("Delete Blog succeed");
                 dispatch(deleteBlogSuccess())
 
 
             } else {
-                toast.error("Delete Video error!");
+                toast.error("Delete Blog error!");
                 dispatch(deleteBlogFailed());
             }
         } catch (e) {
@@ -708,7 +708,7 @@ export const editBlogFailed = () => ({
 export const fetchAllRoadmapsStart = () => {
     return async (dispatch, getState) => {
         try {
-            let res = await getAllRoadmaps("ALL");
+            let res = await getRoadmaps("ALL");
             if (res && res.errCode === 0) {
                 dispatch(fetchAllRoadmapsSuccess(res.roadmaps.reverse()))
             } else {
@@ -721,6 +721,8 @@ export const fetchAllRoadmapsStart = () => {
         }
     }
 }
+
+
 export const fetchARoadmapsStart = (id) => {
     return async (dispatch, getState) => {
         try {

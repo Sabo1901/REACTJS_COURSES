@@ -22,6 +22,7 @@ import BlogUser from './Client/Blog/BlogUser';
 import EditBlog from './Client/Blog/EditBlog';
 import DetailVideo from './Client/Courses/DetailVideo.js';
 import Roadmap from './Client/Roadmap/Roadmap.js';
+import ProfileUser from './Client/User/ProfileUser.js';
 import { CustomToastCloseButton } from '../components/CustomToast';
 import ConfirmModal from '../components/ConfirmModal';
 import HomePage from './HomePage/HomePage.js';
@@ -72,6 +73,7 @@ class App extends Component {
                                     <Route path={path.DETAIL_VIDEO} component={DetailVideo} />
                                     <Route path={path.EDITBLOGUSER} component={EditBlog} />
                                     <Route path={path.ROADMAP} component={Roadmap} />
+                                    <Route path={path.PROFILE} component={ProfileUser} />
                                     <Route path={path.BLOG} component={userClientIsAuthenticated(CreateBlog)} />
                                     {/* <Route path={path.DETAIL_COURSE} component={userClientIsAuthenticated(DetailCourse)} /> */}
 

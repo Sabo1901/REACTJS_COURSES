@@ -161,7 +161,7 @@ class CreateBlog extends Component {
                             <div class="form-group">
                                 <button type="submit"
                                     onClick={() => this.handleSaveContentMarkdown()}
-                                    class="btn custom-btn btn-1">Đăng bài</button>
+                                    class="btn custom-btn btn-13">Đăng bài</button>
                             </div>
                         </div>
 

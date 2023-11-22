@@ -72,7 +72,9 @@
                 display      : block;
                 outline      : none;
             }
-
+            .info_user{
+                display: none;
+            }
             .support {
                 padding-right: 25px;
                 display      : flex;
@@ -217,4 +219,15 @@
         }
     }
 
+}
+.FallbackAvatar_avatar__gmj3S img:not(.FallbackAvatar_crown__BnONf) {
+    border-radius: 50%;
+    height: 9em;
+    object-fit: cover;
+    width: 9em;
+}
+.FallbackAvatar_avatar__gmj3S {
+    background: transparent;
+    border-radius: 50%;
+    font-size: 3.2px;
 }

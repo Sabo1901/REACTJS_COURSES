@@ -239,7 +239,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchRoadmapRedux: () => dispatch(actions.fetchAllRoadmapsStart()),
         editARoadmapRedux: (data) => dispatch(actions.editARoadmap(data)),
         createNewRoadmap: (data) => dispatch(actions.createNewRoadmap(data)),
         fetchCourseRedux: () => dispatch(actions.fetchAllCoursesStart()),

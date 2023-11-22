@@ -61,7 +61,7 @@ class ListBlog extends Component {
         const { userInfo } = this.props;
         let arrBlogs = this.state.blogsRedux;
         let users = this.props.users;
-
+        const hasUserInfo = userInfo && userInfo.id;
         return (
             <>
                 <HomeHeader isShowBanner={false} />
@@ -71,8 +71,12 @@ class ListBlog extends Component {
                             <h1 class="DefaultLayout_heading__AvBHu">Bài viết nổi bật</h1><div class="MarkdownParser_wrapper__JYN63 DefaultLayout_desc__rr0iE" style={{ fontSize: '15px', lineHeight: '1.6', }}>
                                 <p>Tổng hợp các bài viết chia sẻ về kinh nghiệm tự học lập trình online và các kỹ thuật lập trình web.</p>
                             </div>
-                            <button onClick={() => this.handleCreateBlog()} class="custom-btn btn-13" style={{ display: 'block', marginBottom: '20px' }}>Tạo bài viết</button>
-                            <button onClick={() => this.handleListUserBlog(userInfo.id)} class="custom-btn btn-13">Bài viết của bạn</button>
+                            {hasUserInfo && (
+                                <button onClick={() => this.handleCreateBlog()} class="custom-btn btn-13" style={{ display: 'block', marginBottom: '20px' }}>Tạo bài viết</button>
+                            )}
+                            {hasUserInfo && (
+                                <button onClick={() => this.handleListUserBlog(userInfo.id)} class="custom-btn btn-13">Bài viết của tôi</button>
+                            )}
                         </div>
                         <div class="container-body">
                             <section class="index-module_row__-AHgh">
@@ -94,7 +98,7 @@ class ListBlog extends Component {
                                                         imageBase = new Buffer(item.image, 'base64').toString('binary');
                                                     }
                                                     const formattedDate = moment(item.createdAt).format('DD/MM/YYYY');
-
+                                                    console.log('check ten: ', lastName);
                                                     return (
                                                         <div class="PostItem_wrapper__5s6Lk" key={index}>
                                                             <div class="PostItem_header__kJhep">

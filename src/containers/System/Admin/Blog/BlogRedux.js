@@ -28,11 +28,10 @@ class BlogRedux extends Component {
         }
     }
 
-    async componentDidMount() {
+    componentDidMount() {
 
         this.props.fetchCourseRedux();
-
-
+        this.props.fetchUserRedux();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -48,51 +47,6 @@ class BlogRedux extends Component {
         }
     }
 
-    handleSaveVideo = () => {
-        let isValid = this.checkValidateInput();
-        if (isValid === false) return;
-        let { action } = this.state;
-        if (action === CRUD_ACTIONS.CREATE) {
-            this.props.createNewVideo({
-                courseId: this.state.courseId,
-                linkVideo: this.state.linkVideo,
-                chapter: this.state.chapter,
-                titleArticle: this.state.titleArticle,
-            })
-        }
-        if (action === CRUD_ACTIONS.EDIT) {
-            this.props.editAVideoRedux({
-                id: this.state.blogEditId,
-                courseId: this.state.courseId,
-                linkVideo: this.state.linkVideo,
-                chapter: this.state.chapter,
-                titleArticle: this.state.titleArticle,
-            })
-        }
-    }
-
-    checkValidateInput = () => {
-        let isValid = true;
-        let arrCheck = ['courseId', 'linkVideo', 'chapter', 'titleArticle']
-        for (let i = 0; i < arrCheck.length; i++) {
-            if (!this.state[arrCheck[i]]) {
-                isValid = false;
-                alert('This input is required: ' + arrCheck[i])
-                break;
-            }
-        }
-        return isValid;
-    }
-
-
-    onChangeInput = (event, id) => {
-        let copyState = { ...this.state }
-
-        copyState[id] = event.target.value;
-        this.setState({
-            ...copyState
-        })
-    }
 
     handleEditVideoFromParent = (video) => {
         console.log('video check from parent:', video);
@@ -108,9 +62,7 @@ class BlogRedux extends Component {
 
     render() {
         let language = this.props.language;
-        let videos = this.state.blogArr;
-        console.log('check list:', videos);
-        let { courseId, linkVideo, chapter, titleArticle } = this.state;
+        let listUsers = this.props.listUsers;
 
         return (
 
@@ -123,7 +75,7 @@ class BlogRedux extends Component {
                     <div className='container'>
                         <div className='row'>
 
-                            <div className='col-3'>
+                            {/* <div className='col-3'>
                                 <label><FormattedMessage id="manage-video.courseId" /></label>
                                 <select className='form-control'
                                     onChange={(event) => { this.onChangeInput(event, 'courseId') }}
@@ -174,7 +126,7 @@ class BlogRedux extends Component {
                                         <FormattedMessage id="manage-course.save" />
                                     }
                                 </button>
-                            </div>
+                            </div> */}
                             <div className='col-12 mb-5'>
                                 <TableManageBlog
                                     handleEditVideoFromParent={this.handleEditVideoFromParent}
@@ -208,9 +160,7 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchCourseRedux: () => dispatch(actions.fetchAllCoursesStart()),
         fetchVideoRedux: () => dispatch(actions.fetchAllVideosStart()),
-        createNewVideo: (data) => dispatch(actions.createNewVideo(data)),
-        editAVideoRedux: (data) => dispatch(actions.editAVideo(data))
-
+        fetchUserRedux: () => dispatch(actions.fetchAllUsersStart()),
     };
 };
 

@@ -30,6 +30,10 @@ const deleteUserService = (userId) => {
 const editUserService = (inputData) => {
     return axios.put('/api/edit-user', inputData);
 }
+const getDetailInforUser = (inputId) => {
+    return axios.get(`/api/get-detail-users-by-id?id=${inputId}`);
+}
+
 const getAllCodeService = (inputType) => {
     return axios.get(`/api/allcode?type=${inputType}`);
 }
@@ -64,5 +68,6 @@ export {
     handleLoginApiClient, saveCreateBlogService,
     getAllBlogs, getDetailInforBlog,
     getTopBlogHomeService, getAllBlogsUser,
-    deleteBlogService, editBlogService
+    deleteBlogService, editBlogService,
+    getDetailInforUser
 }

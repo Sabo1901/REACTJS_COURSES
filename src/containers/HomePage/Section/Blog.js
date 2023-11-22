@@ -31,7 +31,11 @@ class Blog extends Component {
         }
 
     }
-
+    returnToBlog = () => {
+        if (this.props.history) {
+            this.props.history.push(`/listblog`)
+        }
+    }
 
 
     render() {
@@ -43,7 +47,7 @@ class Blog extends Component {
                     <div className='section-header'>
                         <span className='title-section'>Bài viết nhiều tương tác</span>
                         {/* <button className='btn-section'>Xem thêm</button> */}
-                        <button class="custom-btn btn-3"><span>Xem thêm</span></button>
+                        <button class="custom-btn btn-3" onClick={() => this.returnToBlog()}><span>Xem thêm</span></button>
                     </div>
                     <div className='section-body'>
                         <Slider {...this.props.settings}>

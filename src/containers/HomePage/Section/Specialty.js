@@ -30,11 +30,14 @@ class Specialty extends Component {
         if (this.props.history) {
             this.props.history.push(`/detail-course/${course.id}`)
         }
-
+    }
+    returnToCourse = () => {
+        if (this.props.history) {
+            this.props.history.push(`/list-courses`)
+        }
     }
     render() {
         let arrCourses = this.state.arrCourses;
-
         return (
             <div className='section-share section-specialty'>
                 <div className='section-container'>
@@ -43,7 +46,7 @@ class Specialty extends Component {
                             <FormattedMessage id="homepage.standing-course" />
                         </span>
                         {/* <button className='btn-section'>Xem thêm</button> */}
-                        <button class="custom-btn btn-3"><span> <FormattedMessage id="homepage.more-infor" /></span></button>
+                        <button class="custom-btn btn-3" onClick={() => this.returnToCourse()}><span> <FormattedMessage id="homepage.more-infor" /></span></button>
                     </div>
                     <div className='section-body'>
                         <Slider {...this.props.settings}>
@@ -60,7 +63,7 @@ class Specialty extends Component {
                                         >
                                             <img src={imageBase64} />
 
-                                            <div className='nameCourse'>{item.nameCourse}</div>
+                                            <div className='nameCourse' onClick={() => this.handleViewDetailCourse(item)}>{item.nameCourse}</div>
                                             <div className='lecturers'>{item.lecturers}</div>
                                             <div className='lecturers'>20 bài giảng</div>
 

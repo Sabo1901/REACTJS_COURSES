@@ -18,6 +18,8 @@ class Signup extends Component {
             lastName: '',
             email: '',
             password: '',
+            scholasticArr: [],
+            scholasticId: '',
             confirmpassword: '',
             role: 'R3',
             isShowPassword: false,
@@ -26,6 +28,37 @@ class Signup extends Component {
         }
 
     }
+
+    componentDidMount() {
+
+        this.props.fetchScholasticRedux();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+
+        if (prevProps.scholastics !== this.props.scholastics) {
+            let arrScholastics = this.props.scholastics;
+            this.setState({
+                scholasticArr: arrScholastics,
+                scholasticId: arrScholastics && arrScholastics.length > 0 ? arrScholastics[0].id : ''
+            })
+        }
+        if (prevProps.listUsers !== this.props.listUsers) {
+            let arrScholastics = this.props.scholastics;
+            this.setState({
+                email: '',
+                password: '',
+                firstName: '',
+                lastName: '',
+                phonenumber: '',
+                scholasticId: '',
+                address: '',
+                scholasticId: arrScholastics && arrScholastics.length > 0 ? arrScholastics[0].id : '',
+                avatar: '',
+            })
+        }
+    }
+
 
     handleOnChangeUsername = (event) => {
         this.setState({
@@ -49,7 +82,7 @@ class Signup extends Component {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             roleId: this.state.role,
-
+            scholasticId: this.state.scholasticId,
         })
 
 
@@ -73,7 +106,7 @@ class Signup extends Component {
     }
     checkValidateInput = () => {
         let isValid = true;
-        let arrCheck = ['firstName', 'lastName', 'email', 'password', 'confirmpassword', 'role']
+        let arrCheck = ['firstName', 'lastName', 'email', 'password', 'scholasticId', 'confirmpassword', 'role']
         for (let i = 0; i < arrCheck.length; i++) {
             if (!this.state[arrCheck[i]]) {
                 isValid = false;
@@ -92,13 +125,14 @@ class Signup extends Component {
     }
 
     render() {
-
-        let { email, password, firstName, lastName, confirmpassword, role } = this.state;
+        let language = this.props.language;
+        let scholastics = this.state.scholasticArr;
+        let { email, password, firstName, lastName, scholasticId, confirmpassword, role } = this.state;
 
         return (
 
             <div className="login-background">
-                <div className='login-container' style={{ width: '450px', height: '550px' }}>
+                <div className='login-container' style={{ width: '450px', height: '600px' }}>
                     <div className='login-content row' style={{ padding: '25px' }}>
                         <div className='col-12 text-login'>Signup</div>
                         <div className='col-12 form-group login-input'>
@@ -160,6 +194,22 @@ class Signup extends Component {
                                 </span>
                             </div>
                         </div>
+                        <div className='col-12 form-group login-input'>
+                            <label>Course Student</label>
+                            <select className='form-control'
+                                onChange={(event) => { this.onChangeInput(event, 'scholasticId') }}
+                                value={scholasticId}
+                            >
+                                {scholastics && scholastics.length > 0 &&
+                                    scholastics.map((item, index) => {
+                                        return (
+                                            <option key={index} value={item.id}>
+                                                {item.scholastic}
+                                            </option>
+                                        )
+                                    })}
+                            </select>
+                        </div>
                         <div className='col-12' style={{ color: 'red' }}>
                             {this.state.errMessage}
                         </div>
@@ -193,7 +243,8 @@ class Signup extends Component {
 
 const mapStateToProps = state => {
     return {
-        language: state.app.language
+        language: state.app.language,
+        scholastics: state.admin.scholastics
     };
 };
 
@@ -202,7 +253,8 @@ const mapDispatchToProps = dispatch => {
         navigate: (path) => dispatch(push(path)),
         //  userLoginFail: () => dispatch(actions.adminLoginFail()),
         createNewClient: (data) => dispatch(actions.createNewClient(data)),
-        userLoginSuccess: (userInfo) => dispatch(actions.userClientLoginSuccess(userInfo))
+        userLoginSuccess: (userInfo) => dispatch(actions.userClientLoginSuccess(userInfo)),
+        fetchScholasticRedux: () => dispatch(actions.fetchAllScholasticsStart()),
     };
 };
 

@@ -32,6 +32,7 @@ class Roadmap extends Component {
                 })
             }
             this.props.fetchRoadmapRedux(id);
+            this.props.fetchCourseRedux();
             // this.props.fetchScholasticRedux(1);
         }
 
@@ -43,16 +44,41 @@ class Roadmap extends Component {
             this.setState({
                 scholasticsRedux: this.props.roadmap,
 
-            })
-        }
+            });
 
+            let arrRoadmaps = this.props.roadmap;
+            let roadmapBySemester = {};
+            let totalCredits = 0;
+            let totalCourses = 0;
+
+            // Tạo danh sách phần tử theo semester
+            arrRoadmaps.forEach((item, index) => {
+                // Kiểm tra xem semester đã tồn tại trong đối tượng chưa
+                if (!roadmapBySemester[item.semester]) {
+                    roadmapBySemester[item.semester] = [];
+                }
+
+                // Thêm phần tử vào danh sách của semester
+                roadmapBySemester[item.semester].push(item);
+            });
+
+            // Tính tổng số tín chỉ và số môn
+            Object.keys(roadmapBySemester).forEach((semester) => {
+                let semesterTotalCredits = roadmapBySemester[semester].reduce((sum, subItem) => sum + subItem.credit, 0);
+                let semesterItemCount = roadmapBySemester[semester].length;
+
+                totalCredits += semesterTotalCredits;
+                totalCourses += semesterItemCount;
+            });
+
+            // Cập nhật giá trị cho state
+            this.setState({
+                localTotalCredits: totalCredits,
+                localTotalCourses: totalCourses,
+            });
+        }
     }
     handleClick = () => {
-
-        let arrListStr = this.state.scholasticsRedux.map(x => x.semester);
-        let namevideo = this.state.scholasticsRedux.map(x => x.credit);
-        //console.log('la list video', arrListStr);
-
         var toggleButtons = document.querySelectorAll(".toggle-btn");
         var contents = document.querySelectorAll(".tab-content")
         var detailBtns = document.querySelector(".image_course_play")
@@ -89,18 +115,18 @@ class Roadmap extends Component {
         }
     }
 
-    handleViewDetailBlog = (blog) => {
+    handleViewDetailCourse = (course) => {
         if (this.props.history) {
-            this.props.history.push(`/detailblog/${blog.id}`)
+            this.props.history.push(`/detail-course/${course.id}`)
         }
 
     }
 
     render() {
-        let { detailScholastic } = this.state;
+        let { detailScholastic, localTotalCourses, localTotalCredits } = this.state;
         let arrRoadmaps = this.state.scholasticsRedux;
         // let listroadmaps = this.state.roadmapsRedux;
-        console.log('check: ', arrRoadmaps);
+
         let roadmapBySemester = {};
 
         // Tạo danh sách phần tử theo semester
@@ -113,6 +139,13 @@ class Roadmap extends Component {
             // Thêm phần tử vào danh sách của semester
             roadmapBySemester[item.semester].push(item);
         });
+
+        let courses = this.props.courses;
+        // Biến địa phương để lưu tổng số tín chỉ và số môn
+
+        // const { totalCredits, totalCourses } = this.state;
+        // Xuất tổng số học kỳ và tổng số tín chỉ
+
         return (
             <>
                 <HomeHeader isShowBanner={false} />
@@ -122,72 +155,85 @@ class Roadmap extends Component {
                     <div class="content_left" style={{ width: '40.66667%' }}>
                         <h2 style={{ fontSize: '26px', fontWeight: '700', marginTop: '90px' }}>Nội dung chương trình đào tạo Khóa {detailScholastic.scholastic}:</h2>
                         <p style={{ fontSize: '15px', lineHeight: '1.6' }}>Tổng hợp tất cả các học phần lý thuyết và thực hành (không tính các học phần đại cương và các học phần không tích lũy) </p>
-
+                        <p style={{ fontSize: '15px', lineHeight: '1.6' }}>Các học phần có cùng Mã HP là các học phần tương đương (có thể học 1 trong số các học phần có cùng Mã HP) </p>
                         <ul style={{ paddingLeft: '0' }}>
-                            <li><b>18 môn</b></li>
+                            <li><b>{this.state.localTotalCourses} môn</b></li>
                             <li style={{ fontSize: '1.4rem', marginTop: '1px', opacity: '.8', padding: '0 8px' }}>•</li>
-                            <li><b>54 tín chỉ</b></li>
-
+                            <li><b>{this.state.localTotalCredits} tín chỉ</b></li>
                         </ul>
                         <div style={{ width: '510px' }}>
-                            {Object.keys(roadmapBySemester).map((semester, semesterIndex) => (
-                                <div class="product-details-tab " key={semesterIndex}>
-                                    <div class="nav-item toggle-btn inactiveShowContent" onClick={() => this.handleClick()}>
-                                        <div class="nav_chitiet" style={{ width: '510px' }} >
-                                            <span class="name-course" style={{ textAlign: 'center', fontFamily: 'sans-serif', textDecoration: 'none' }}><strong>Học kì: {semester}</strong></span>
-                                            <p class="timeCoures" style={{ fontWeight: '600' }}>1 môn | 3 tín chỉ </p>
+                            {Object.keys(roadmapBySemester).map((semester, semesterIndex) => {
+                                let semesterTotalCredits = roadmapBySemester[semester].reduce((sum, subItem) => sum + subItem.credit, 0);
+
+                                // Đếm số lượng phần tử trong mảng của từng semester
+                                let semesterItemCount = roadmapBySemester[semester].length;
+                                // Cập nhật biến địa phương
+
+
+                                return (
+                                    <div class="product-details-tab " key={semesterIndex}>
+                                        <div class="nav-item toggle-btn inactiveShowContent" onClick={() => this.handleClick()}>
+                                            <div class="nav_chitiet" style={{ width: '510px' }} >
+                                                <span class="name-course" style={{ textAlign: 'center', fontFamily: 'sans-serif', textDecoration: 'none' }}><strong>Học kì: {semester}</strong></span>
+                                                <p class="timeCoures" style={{ fontWeight: '600' }}>{semesterItemCount} môn | {semesterTotalCredits} tín chỉ </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <br />
+                                        <br />
 
-                                    <div class="tab-content" style={{ width: '100%', marginLeft: '0' }}>
-                                        {roadmapBySemester[semester].map((subItem, subIndex) => (
-                                            <div class="tab-content-item" key={subIndex}>
-                                                <a href="/COURSE/Index/CMP1016" style={{ color: 'black' }}>
-                                                    <div class="chitiet_course">
-                                                        <div class="CurriculumOfCourse_lessonName__llwRr" style={{ float: 'left', marginLeft: '-37px' }}>CMP1016 | {subItem.credit} </div>
-                                                        <span class="time_course" style={{ marginRight: '-21px' }}>{subItem.semester} tín chỉ</span>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            ))}
-                            {/* {arrRoadmaps && arrRoadmaps.length > 0 &&
-                                arrRoadmaps.map((item, index) => {
+                                        <div class="tab-content" style={{ width: '100%', marginLeft: '0' }}>
+                                            {/* {roadmapBySemester[semester].map((subItem, subIndex) => {
+                                                const course = courses.find(course => course.id === subItem.courseId);
+                                                const courseName = course ? course.nameCourse : "Không tìm thấy";
 
-                                    return (
-                                        <div class="product-details-tab " key={index}>
-                                            <div class="nav-item toggle-btn inactiveShowContent" onClick={() => this.handleClick()}>
-                                                <div class="nav_chitiet" style={{ width: '510px' }} >
-                                                    <span class="name-course" style={{ textAlign: 'center', fontFamily: 'sans-serif', textDecoration: 'none' }}><strong>Học kì: {item.semester}</strong></span>
-                                                    <p class="timeCoures" style={{ fontWeight: '600' }}>1 môn | 3 tín chỉ </p>
-                                                </div>
-                                            </div>
-                                            <br />
+                                                // Kiểm tra xem giá trị prerequisite đã được hiển thị chưa
+                                                const prerequisiteDisplayed = roadmapBySemester[semester].some(
+                                                    (prevItem, prevIndex) =>
+                                                        prevIndex < subIndex && prevItem.prerequisite === subItem.prerequisite
+                                                );
 
-                                            <div class="tab-content" style={{ width: '100%', marginLeft: '0' }}>
-                                                {arrRoadmaps && arrRoadmaps.length > 0 &&
-                                                    arrRoadmaps.map((item, index) => {
-                                                        return (
-                                                            <div class="tab-content-item" key={index}>
-                                                                <a href="/COURSE/Index/CMP1016" style={{ color: 'black' }}>
-                                                                    <div class="chitiet_course">
-                                                                        <div class="CurriculumOfCourse_lessonName__llwRr" style={{ float: 'left', marginLeft: '-37px' }}>CMP1016 | {item.credit} </div>
-                                                                        <span class="time_course" style={{ marginRight: '-21px' }}>{item.semester} tín chỉ</span>
+                                                // Chỉ hiển thị giá trị đầu tiên nếu trùng prerequisite
+                                                if (!prerequisiteDisplayed) {
+                                                    return (
+                                                        <div class="tab-content-item" key={subIndex}>
+                                                            <a
+                                                                onClick={() => this.handleViewDetailCourse(subItem)}
+                                                                style={{ color: "black", cursor: "pointer" }}
+                                                            >
+                                                                <div class="chitiet_course">
+                                                                    <div class="CurriculumOfCourse_lessonName__llwRr" style={{ float: 'left', marginLeft: '-37px' }}>
+                                                                        {subItem.prerequisite} | {courseName}
                                                                     </div>
-                                                                </a>
-
-                                                            </div>
-                                                        )
-                                                    })
+                                                                    <span class="time_course" style={{ marginRight: '-21px' }}>
+                                                                        {subItem.credit} tín chỉ
+                                                                    </span>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    );
+                                                } else {
+                                                    return null; // Không hiển thị nếu giá trị đã được hiển thị trước đó
                                                 }
-                                            </div>
+                                            })} */}
+                                            {roadmapBySemester[semester].map((subItem, subIndex) => {
+                                                const course = courses.find(course => course.id === subItem.courseId);
+                                                const courseName = course ? course.nameCourse : "Không tìm thấy";
+
+                                                return (
+                                                    <div class="tab-content-item" key={subIndex}>
+                                                        <a onClick={() => this.handleViewDetailCourse(subItem)} style={{ color: 'black', cursor: 'pointer' }}>
+                                                            <div class="chitiet_course">
+                                                                <div class="CurriculumOfCourse_lessonName__llwRr" style={{ float: 'left', marginLeft: '-37px' }}>{subItem.prerequisite} | {courseName} </div>
+                                                                <span class="time_course" style={{ marginRight: '-21px' }}>{subItem.credit} tín chỉ</span>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
-                                    )
-                                })
-                            } */}
+                                    </div>
+                                );
+
+                            })}
                         </div>
 
                     </div>
@@ -204,13 +250,13 @@ class Roadmap extends Component {
         );
     }
 }
-
 const mapStateToProps = state => {
     return {
         scholastics: state.admin.scholastics,
         userInfo: state.user.userInfo,
         listUsers: state.admin.users,
         roadmap: state.admin.roadmap,
+        courses: state.admin.courses
     };
 };
 
@@ -219,6 +265,7 @@ const mapDispatchToProps = dispatch => {
         fetchRoadmapRedux: (id) => dispatch(actions.fetchARoadmapsStart(id)),
         fetchScholasticRedux: (scholasticId) => dispatch(actions.fetchAScholasticsStart(scholasticId)),
         fetchUserRedux: (userId) => dispatch(actions.fetchAUsersStart(userId)),
+        fetchCourseRedux: () => dispatch(actions.fetchAllCoursesStart()),
     };
 };
 

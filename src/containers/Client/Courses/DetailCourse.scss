@@ -82,7 +82,10 @@ border: none;
 z-index: 1;
 
 }
-
+.tab-content {
+    display: none;
+    width: 100%;
+}
 body {
     font-family: var(--system-ui);
 }

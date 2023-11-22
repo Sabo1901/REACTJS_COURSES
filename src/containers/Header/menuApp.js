@@ -58,3 +58,42 @@ export const adminMenu = [
         ]
     },
 ];
+
+export const UserMenu = [
+
+    { //quản lý khóa học
+        name: 'menu.admin.course',
+        menus: [
+            {
+                name: 'menu.admin.manage-course', link: '/system/course-redux'
+            },
+            {
+                name: 'menu.admin.manage-detail-course', link: '/system/manage-course'
+            },
+            {
+                name: 'menu.admin.manage-video', link: '/system/video-redux'
+            },
+
+        ]
+    },
+    { //quản lý lộ trình
+        name: 'menu.admin.roadmap',
+        menus: [
+            {
+                name: 'menu.admin.manage-roadmap', link: '/system/roadmap-redux'
+            },
+            {
+                name: 'menu.admin.manage-scholastic', link: '/system/scholastic-redux'
+            },
+        ]
+    },
+    { //quản lý cẩm nang
+        name: 'menu.admin.blog',
+        menus: [
+            {
+                name: 'menu.admin.manage-blog', link: '/system/manage-blog'
+            },
+
+        ]
+    },
+];

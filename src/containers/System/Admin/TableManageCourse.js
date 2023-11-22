@@ -26,7 +26,8 @@ class TableManageCourse extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            coursesRedux: []
+            coursesRedux: [],
+            searchKeyword: '',
         }
     }
 
@@ -49,10 +50,38 @@ class TableManageCourse extends Component {
     handleEditCourse = (course) => {
         this.props.handleEditCourseFromParent(course)
     }
+    filterRoadmaps() {
+        const { coursesRedux, searchKeyword } = this.state;
+
+        if (!searchKeyword) {
+            return coursesRedux;
+        }
+        return coursesRedux.filter(courses => {
+            return (
+                courses.nameCourse.includes(searchKeyword) ||
+                courses.describe.includes(searchKeyword) ||
+                courses.detail.includes(searchKeyword) ||
+                courses.tantamount.toString().includes(searchKeyword) ||
+                courses.lecturers.includes(searchKeyword)
+
+            );
+        });
+    }
+
+
     render() {
-        let arrCourses = this.state.coursesRedux;
+        let arrCourses = this.filterRoadmaps();
         return (
             <React.Fragment>
+                <div className='col-3' style={{ marginBottom: '30px' }}>
+                    <label>Tìm kiếm</label>
+                    <input
+                        className='form-control'
+                        type='text'
+                        value={this.state.searchKeyword}
+                        onChange={(event) => { this.setState({ searchKeyword: event.target.value }) }}
+                    />
+                </div>
                 <table id='TableManageUser'>
                     <tbody>
                         <tr>
@@ -65,22 +94,25 @@ class TableManageCourse extends Component {
                             <th><FormattedMessage id="manage-course.action" /></th>
                         </tr>
                         {arrCourses && arrCourses.length > 0 &&
-                            arrCourses.map((item, index) => {
-                                return (
-                                    <tr key={index}>
-                                        <td>{item.nameCourse}</td>
-                                        <td>{item.lecturers}</td>
-                                        <td>{item.detail}</td>
-                                        <td>{item.describe}</td>
-                                        <td>{item.tantamount}</td>
-                                        <td>{item.viewed}</td>
-                                        <td>
-                                            <button className='btn-edit' onClick={() => this.handleEditCourse(item)}><i className="fas fa-pencil-alt"></i></button>
-                                            <button className='btn-delete' onClick={() => this.handleDeleteCourse(item)}><i className="fas fa-trash-alt"></i></button>
-                                        </td>
-                                    </tr>
-                                )
-                            })
+                            arrCourses
+                                .slice()
+                                .sort((a, b) => a.nameCourse.localeCompare(b.nameCourse))
+                                .map((item, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{item.nameCourse}</td>
+                                            <td>{item.lecturers}</td>
+                                            <td>{item.detail}</td>
+                                            <td>{item.describe}</td>
+                                            <td>{item.tantamount}</td>
+                                            <td>{item.viewed}</td>
+                                            <td>
+                                                <button className='btn-edit' onClick={() => this.handleEditCourse(item)}><i className="fas fa-pencil-alt"></i></button>
+                                                <button className='btn-delete' onClick={() => this.handleDeleteCourse(item)}><i className="fas fa-trash-alt"></i></button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
                         }
 
                     </tbody>

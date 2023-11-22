@@ -7,10 +7,21 @@ import { FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router';
 import * as actions from "../../store/actions";
 class HomeHeader extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isClicked: false,
+        }
+    }
+
 
     changeLanguage = (language) => {
         this.props.changeLanguageAppRedux(language)
     }
+
+
+
+
     componentDidMount() {
         this.props.fetchUserRedux();
     }
@@ -39,13 +50,63 @@ class HomeHeader extends Component {
             this.props.history.push(`/roadmap/${id}`)
         }
     }
+    returnToProfile = (id) => {
+        if (this.props.history) {
+            this.props.history.push(`/profile/${id}`)
+        }
+    }
     handleViewDetailBlogList = (userId) => {
         if (this.props.history) {
             this.props.history.push(`/list-blog-user`)
         }
 
     }
+    handleListUserBlog = (user) => {
+        const { userInfo } = this.props;
+        if (this.props.history) {
+            this.props.history.push(`/list-blog-user/${userInfo.id}`)
+        }
+    }
+    handleCreateBlog = () => {
 
+        if (this.props.history) {
+            this.props.history.push('/createblog')
+        }
+    }
+    handleClickProfile = () => {
+        // Lấy tham chiếu đến nút button
+        const { userInfo } = this.props;
+        var toggleButtons = document.querySelectorAll(".NavBar_myLearn__vCvEB");
+        var contents = document.querySelectorAll(".manageCOURSEs");
+        var Buttons = document.querySelectorAll(".NavBar_avatar-wrapper__j7jMj");
+        var prifile = document.querySelectorAll(".info_user")
+        if (!this.state.isClicked) {
+            // Gắn sự kiện click cho nút button
+            function showContent(toggleButton, content) {
+                toggleButton.addEventListener("click", function () {
+                    // Kiểm tra trạng thái hiện tại của nút
+                    if (toggleButton.classList.contains("activeShowContent")) {
+                        // Nếu đang active, chuyển sang inactive
+                        toggleButton.classList.remove("activeShowContent");
+                        toggleButton.classList.add("inactiveShowContent");
+                        content.style.display = "none"
+                    } else {
+                        // Nếu đang inactive, chuyển sang active
+                        toggleButton.classList.remove("inactiveShowContent");
+                        toggleButton.classList.add("activeShowContent");
+                        content.style.display = "block"
+                    }
+                });
+            }
+            this.setState({ isClicked: true });
+            for (let i = 0; i < toggleButtons.length; i++) {
+                showContent(toggleButtons[i], contents[i]);
+            }
+            for (let i = 0; i < Buttons.length; i++) {
+                showContent(Buttons[i], prifile[i]);
+            }
+        }
+    }
     render() {
         //let language = this.props.language;
 
@@ -56,8 +117,12 @@ class HomeHeader extends Component {
         const hasUserInfo = userInfo && userInfo.id;
         const course = listUsers.find(user => user.id === userInfo?.id);
         const scholastic = hasUserInfo ? (course ? course.scholasticId : "0") : "0";
+        const image = hasUserInfo ? (course ? course.image : "0") : "0";
+        let imageBase64 = '';
+        if (image) {
+            imageBase64 = new Buffer(image, 'base64').toString('binary');
+        }
 
-        console.log('list:', scholastic);
         return (
             <React.Fragment>
                 <div className='home-header-container'>
@@ -75,14 +140,24 @@ class HomeHeader extends Component {
                                     <FormattedMessage id="homeheader.search-course" />
                                 </div>
                             </div>
-                            {hasUserInfo && (
+                            {hasUserInfo ? (
                                 <div className='child-content' onClick={() => this.returnToRoadmap(scholastic)}>
                                     <div><b><FormattedMessage id="homeheader.learning-roadmap" /></b> </div>
                                     <div className='sub-title'>
                                         <FormattedMessage id="homeheader.view-roadmap" />
                                     </div>
                                 </div>
-                            )}
+                            ) : (
+                                <div className='child-content' style={{ cursor: 'default' }}>
+                                    <div><b><FormattedMessage id="homeheader.learning-roadmap" /></b> </div>
+                                    <div className='sub-title'>
+                                        <FormattedMessage id="homeheader.view-roadmaplogin" />
+
+                                    </div>
+                                </div>
+                            )
+
+                            }
                             <div className='child-content' onClick={() => this.returnToBlog()}>
                                 <div><b> <FormattedMessage id="homeheader.blog" /></b> </div>
                                 <div className='sub-title'>
@@ -97,17 +172,53 @@ class HomeHeader extends Component {
                             </div>
                         </div>
                         <div className='right-content'>
-                            <div className='support' onClick={() => this.handleViewDetailBlogList()}>
+                            <div className='support'>
                                 <i className="far fa-question-circle"> <FormattedMessage id="homeheader.support" /></i>
                             </div>
                             <div className={language === LANGUAGES.VI ? 'language-vi active' : 'language-vi'} onClick={() => this.changeLanguage(LANGUAGES.VI)}>VN</div>
                             <div className={language === LANGUAGES.EN ? 'language-en active' : 'language-en'} onClick={() => this.changeLanguage(LANGUAGES.EN)}>EN</div>
                             {userInfo
                                 &&
-                                <div>
-                                    <span className='welcome'> <FormattedMessage id="homeheader.welcome" />
-                                        {userInfo && userInfo.firstName ? userInfo.firstName : ''} !
+                                <div style={{ display: 'flex' }}>
+                                    <span className='welcome NavBar_avatar-wrapper__j7jMj'
+                                        style={{ cursor: 'pointer', display: 'flex' }}>
+                                        <div class="FallbackAvatar_avatar__gmj3S" onClick={() => this.handleClickProfile()} style={{ fontSize: '3.2px' }}>
+                                            <img class="NavBar_avatar__OG7ib" src={imageBase64}
+
+                                                alt="1118_Nguyễn Đình Hiếu" style={{
+                                                    marginTop: '5px',
+                                                    marginRight: '10px'
+                                                }} />
+                                        </div>
                                     </span>
+                                    <div className='info_user' id="tippy-4" style={{ zIndex: '9999', position: 'absolute', inset: ' 0px 0px auto auto', margin: '0px', transform: 'translate3d(-28px, 57.6px, 0px)' }}>
+                                        <ul class="Tippy-module_wrapper__1s5m5 UserMenu_wrapper__kevhj hide-on-click">
+                                            <div class="UserMenu_user__GXFLp">
+                                                <div class="UserMenu_avatarWrapper__9ABYL">
+                                                    <div class="FallbackAvatar_avatar__gmj3S" style={{ fontSize: '3.2px' }}>
+                                                        {/* <img class="NavBar_avatar__OG7ib" src="/Content/images/low poly wolf face.jpg" alt="1118"> */}
+                                                    </div>
+                                                </div>
+                                                <div class="UserMenu_info__UqeZT">
+                                                    <span class="UserMenu_name__L18s-">  <FormattedMessage id="homeheader.welcome" />
+                                                        {userInfo && userInfo.firstName ? userInfo.firstName : ''} !
+                                                    </span>
+                                                    <div class="UserMenu_username__7qkRU"></div>
+                                                </div>
+                                            </div>
+
+                                            <ul class="UserMenu_list__FI9-C">
+                                                <li><a class="UserMenu_item__NXwf1" onClick={() => this.returnToProfile(userInfo.id)}>Trang cá nhân</a></li>
+                                            </ul>
+
+                                            <ul class="UserMenu_list__FI9-C">
+                                                <li><a class="UserMenu_item__NXwf1" onClick={() => this.handleCreateBlog()}>Viết blog</a></li>
+                                                <li><a class="UserMenu_item__NXwf1" onClick={() => this.handleListUserBlog(userInfo.id)}>Bài viết của tôi</a></li>
+                                            </ul>
+
+                                        </ul>
+
+                                    </div>
                                     {/* nút logout */}
                                     <div className="btn btn-logout"
                                         style={{ color: '#ffffff', fontSize: '20px' }}
@@ -115,6 +226,7 @@ class HomeHeader extends Component {
                                         <i className="fas fa-sign-out-alt"></i>
                                     </div>
                                 </div>
+
 
                             }
                             {!userInfo

@@ -58,7 +58,9 @@ const getAllVideosCourse = (inputId) => {
 const getAllRoadmaps = (inputId) => {
     return axios.get(`/api/get-all-roadmap?scholasticId=${inputId}`)
 }
-
+const getRoadmaps = (inputId) => {
+    return axios.get(`/api/get-roadmaps?id=${inputId}`)
+}
 const createNewRoadmapService = (data) => {
     return axios.post('/api/create-new-roadmap', data)
 }
@@ -107,5 +109,5 @@ export {
     editRoadmapService, deleteRoadmapService,
     getAllScholastics, createNewScholasticService,
     editScholasticService, deleteScholasticService,
-    getAScholastics
+    getAScholastics, getRoadmaps
 }

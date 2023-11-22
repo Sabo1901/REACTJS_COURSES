@@ -15,6 +15,7 @@ export const path = {
     EDITBLOGUSER: '/edit-blog-user/:id',
     DETAIL_VIDEO: '/detailvideo/:id',
     ROADMAP: '/roadmap/:id',
+    PROFILE: '/profile/:id',
 };
 
 export const LANGUAGES = {
@@ -36,4 +37,9 @@ export const dateFormat = {
 export const YesNoObj = {
     YES: 'Y',
     NO: 'N'
+}
+export const USER_ROLE = {
+    ADMIN: 'R1',
+    USER: 'R2',
+    CLIENT: 'R3',
 }

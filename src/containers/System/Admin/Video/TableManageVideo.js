@@ -11,7 +11,8 @@ class TableManageVideo extends Component {
         super(props);
         this.state = {
             videosRedux: [],
-            detailCourse: {}
+            detailCourse: {},
+            searchKeyword: '',
         }
     }
 
@@ -42,13 +43,41 @@ class TableManageVideo extends Component {
         console.log('video edit:', video);
         this.props.handleEditVideoFromParent(video)
     }
+    filterVideos() {
+        const { videosRedux, searchKeyword } = this.state;
+        let courses = this.props.courses;
+        if (!searchKeyword) {
+            return videosRedux;
+        }
+        return videosRedux.filter(video => {
+            const course = courses.find(course => course.id === video.courseId);
+            const courseName = course ? course.nameCourse : "Không tìm thấy";
+
+            return (
+                video.courseId.toString().includes(searchKeyword) ||
+                courseName.includes(searchKeyword) ||
+                video.linkVideo.includes(searchKeyword) ||
+                video.chapter.includes(searchKeyword) ||
+                video.titleArticle.includes(searchKeyword)
+            );
+        });
+    }
     render() {
-        let arrVideos = this.state.videosRedux;
+        const arrVideos = this.filterVideos();
         let courses = this.props.courses;
 
         return (
 
             <React.Fragment>
+                <div className='col-3' style={{ marginBottom: '30px' }}>
+                    <label>Tìm kiếm</label>
+                    <input
+                        className='form-control'
+                        type='text'
+                        value={this.state.searchKeyword}
+                        onChange={(event) => { this.setState({ searchKeyword: event.target.value }) }}
+                    />
+                </div>
                 <table id='TableManageUser'>
                     <tbody>
                         <tr>
@@ -59,25 +88,28 @@ class TableManageVideo extends Component {
                             <th>Actions</th>
                         </tr>
                         {arrVideos && arrVideos.length > 0 &&
-                            arrVideos.map((item, index) => {
-                                const course = courses.find(course => course.id === item.courseId);
-                                const courseName = course ? course.nameCourse : "Không tìm thấy";
-                                return (
-                                    <tr key={index}>
-                                        <td>{courseName}</td>
+                            arrVideos
+                                .slice()
+                                .sort((a, b) => a.courseId - b.courseId)
+                                .map((item, index) => {
+                                    const course = courses.find(course => course.id === item.courseId);
+                                    const courseName = course ? course.nameCourse : "Không tìm thấy";
+                                    return (
+                                        <tr key={index}>
+                                            <td>{courseName}</td>
 
-                                        <td>
-                                            {item.linkVideo}
-                                        </td>
-                                        <td>{item.titleArticle}</td>
-                                        <td>{item.chapter}</td>
-                                        <td>
-                                            <button className='btn-edit' onClick={() => this.handleEditVideo(item)}><i className="fas fa-pencil-alt"></i></button>
-                                            <button className='btn-delete' onClick={() => this.handleDeleteVideo(item)}><i className="fas fa-trash-alt"></i></button>
-                                        </td>
-                                    </tr>
-                                )
-                            })
+                                            <td>
+                                                {item.linkVideo}
+                                            </td>
+                                            <td>{item.titleArticle}</td>
+                                            <td>{item.chapter}</td>
+                                            <td>
+                                                <button className='btn-edit' onClick={() => this.handleEditVideo(item)}><i className="fas fa-pencil-alt"></i></button>
+                                                <button className='btn-delete' onClick={() => this.handleDeleteVideo(item)}><i className="fas fa-trash-alt"></i></button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
                         }
 
                     </tbody>

@@ -2,18 +2,20 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import HomeHeader from '../../HomePage/HomeHeader';
 import HomeFooter from '../../HomePage/HomeFooter';
+import * as actions from "../../../store/actions";
 import './DetailCourse.scss';
 import { getDetailInforCourse } from '../../../services/courseService';
-
+import { getDetailInforUser } from '../../../services/userService';
 class DetailCourse extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            detailCourse: {}
+            detailCourse: {},
+            videosRedux: [],
+            isClicked: false,
         }
     }
-
     async componentDidMount() {
         if (this.props.match && this.props.match.params && this.props.match.params.id) {
             let id = this.props.match.params.id;
@@ -23,10 +25,22 @@ class DetailCourse extends Component {
                     detailCourse: res.data
                 })
             }
+            this.props.fetchVideoRedux(id);
+
         }
+
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+
+        if (prevProps.videosCourse !== this.props.videosCourse) {
+
+            this.setState({
+                videosRedux: this.props.videosCourse,
+
+            })
+
+        }
 
     }
     handleListVideo = (course) => {
@@ -34,9 +48,57 @@ class DetailCourse extends Component {
             this.props.history.push(`/detailvideo/${course}`)
         }
     }
-    render() {
-        let { detailCourse } = this.state;
+    handleClickCourse = () => {
 
+        // Lấy tham chiếu đến nút button
+        var toggleButtons = document.querySelectorAll(".toggle-btn");
+        var contents = document.querySelectorAll(".tab-content")
+        var detailBtns = document.querySelector(".image_course_play")
+        // Gắn sự kiện click cho nút button
+        if (!this.state.isClicked) {
+            function showContent(toggleButton, content) {
+                toggleButton.addEventListener("click", function () {
+                    // Kiểm tra trạng thái hiện tại của nút
+                    if (toggleButton.classList.contains("activeShowContent")) {
+                        // Nếu đang active, chuyển sang inactive
+                        toggleButton.classList.remove("activeShowContent");
+                        toggleButton.classList.add("inactiveShowContent");
+                        content.style.display = "none"
+                    } else {
+                        // Nếu đang inactive, chuyển sang active
+                        toggleButton.classList.remove("inactiveShowContent");
+                        toggleButton.classList.add("activeShowContent");
+                        content.style.display = "block"
+                    }
+                });
+            }
+            this.setState({ isClicked: true });
+            for (let i = 0; i < toggleButtons.length; i++) {
+                showContent(toggleButtons[i], contents[i]);
+            }
+        }
+    }
+    render() {
+        let { detailCourse, listUsers } = this.state;
+        let { userInfo } = this.props;
+        const hasUserInfo = userInfo && userInfo.id;
+        let arrVideos = this.state.videosRedux;
+
+
+        let videoByChapter = {};
+
+        // Tạo danh sách phần tử theo Chapter
+        arrVideos.forEach((item, index) => {
+            // Kiểm tra xem Chapter đã tồn tại trong đối tượng chưa
+            if (!videoByChapter[item.chapter]) {
+                videoByChapter[item.chapter] = [];
+            }
+
+            // Thêm phần tử vào danh sách của Chapter
+            videoByChapter[item.chapter].push(item);
+        });
+        const totalChapters = Object.keys(videoByChapter).length;
+        const totalVideos = Object.values(videoByChapter).flat().length;
         return (
             <>
                 <HomeHeader isShowBanner={false} />
@@ -74,14 +136,81 @@ class DetailCourse extends Component {
                                 </section>
                             </section>
                         </div>
-                        {/* <h2 style={{ fontSize: '25px', fontWeight: '700' }}>Nội dung khóa học:</h2>
+                        <h2 style={{ fontSize: '25px', fontWeight: '700' }}>Nội dung khóa học:</h2>
                         <ul style={{ paddingLeft: 0 }}>
-                            <li><b>8</b> Chương</li>
+                            <li><b>{totalChapters}</b> Chương</li>
                             <li style={{ fontSize: '1.4rem', marginTop: '1px', opacity: '.8', padding: '0 8px' }}>•</li>
-                            <li><b>14</b> Bài học</li>
+                            <li><b>{totalVideos}</b> Bài học</li>
 
-                        </ul> */}
+                        </ul>
+                        <div>
 
+                            {Object.keys(videoByChapter).map((chapter, chapterIndex) => {
+                                // Đếm số lượng phần tử trong mảng của từng semester
+                                let chapterItemCount = videoByChapter[chapter].length;
+                                // Cập nhật biến địa phương
+
+                                return (
+
+                                    <div class="product-details-tab ">
+                                        <div class="nav-item toggle-btn inactiveShowContent" key={chapterIndex} onClick={() => this.handleClickCourse()}>
+                                            <div class="nav_chitiet">
+                                                <span class="name-course" style={{ textAlign: 'center', fontFamily: 'sans-serif', textDecoration: 'none' }}><strong>{chapter}. Giới thiệu</strong></span>
+                                                <p class="timeCoures" style={{ fontWeight: '600' }}>{chapterItemCount} bài học</p>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="tab-content">
+                                            {videoByChapter[chapter].map((subItem, subIndex) => {
+                                                return (
+                                                    <div class="tab-content-item" key={subIndex}>
+                                                        <div class="chitiet_course">
+                                                            <span class="fas fa-play-circle CurriculumOfCourse_icon__1fxR9 CurriculumOfCourse_video__GQtG1"></span>
+                                                            <div class="CurriculumOfCourse_lessonName__llwRr" style={{ float: 'left', marginleft: '10px' }}>{subItem.titleArticle}  </div>
+
+                                                            <span class="time_course">10:14</span>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+
+
+                                        </div>
+                                    </div>
+                                )
+                            })
+                            }
+                            {/* <div class="product-details-tab ">
+                                <div class="nav-item toggle-btn inactiveShowContent">
+                                    <div class="nav_chitiet">
+                                        <span class="name-course" style={{ textAlign: 'center', fontFamily: 'sans-serif', textDecoration: 'none' }}><strong>2. Giới thiệu</strong></span>
+                                        <p class="timeCoures" style={{ fontWeight: '600' }}>2 bài học</p>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="tab-content">
+
+                                    <div class="tab-content-item">
+                                        <div class="chitiet_course">
+                                            <span class="fas fa-play-circle CurriculumOfCourse_icon__1fxR9 CurriculumOfCourse_video__GQtG1"></span>
+                                            <div class="CurriculumOfCourse_lessonName__llwRr" style={{ float: 'left', marginleft: '10px' }}>Bài 3: Khái niệm, đặc điểm của ngôn ngữ C  </div>
+
+                                            <span class="time_course">10:14</span>
+                                        </div>
+                                    </div>
+                                    <div class="tab-content-item">
+                                        <div class="chitiet_course">
+                                            <span class="fas fa-play-circle CurriculumOfCourse_icon__1fxR9 CurriculumOfCourse_video__GQtG1"></span>
+                                            <div class="CurriculumOfCourse_lessonName__llwRr" style={{ float: 'left', marginleft: '10px' }}>Bài 4: Cấu trúc và chương trình C đầu tiên  </div>
+
+                                            <span class="time_course">15:04</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div> */}
+
+                        </div>
                         {/* <div className="request">
                             <h2 style={{ fontSize: '25px', fontWeight: '700', margin: '70px 0 15px' }}>Yêu cầu</h2>
                             <section className="request_index" style={{ marginLeft: '-12px', marginRight: '-12px' }}>
@@ -95,14 +224,14 @@ class DetailCourse extends Component {
                                 </section>
                             </section>
                         </div> */}
-                        {detailCourse && detailCourse.describe
+                        {/* {detailCourse && detailCourse.describe
                             &&
                             <div className='video-intro'>
                                 <iframe width="700" height="400"
                                     src={detailCourse.describe}>
                                 </iframe>
                             </div>
-                        }
+                        } */}
                     </div>
                     <div className="content_right">
                         <div className="Course_detail">
@@ -110,20 +239,29 @@ class DetailCourse extends Component {
                                 <div className="image_course_play"
                                     style={{ backgroundImage: `url(${detailCourse.image})` }}></div>
                             </div>
-                            <button onClick={() => this.handleListVideo(detailCourse.id)} class="custom-btn btn-13">Xem khóa học</button>
+                            {hasUserInfo ? (
+                                <button onClick={() => this.handleListVideo(detailCourse.id)} className="custom-btn btn-13">
+                                    Xem khóa học
+                                </button>
+                            ) : (
+                                <p style={{ fontSize: '15px' }}>( Cần đăng nhập để có thể xem video )</p>
+                            )}
+                            {/* {hasUserInfo && (
+                                <button onClick={() => this.handleListVideo(detailCourse.id)} class="custom-btn btn-13">Xem khóa học</button>
+                            )} */}
                             <ul>
                                 <li>
-                                    <div className="fa-solid fa-gauge-high"></div>
+
                                     <span style={{ paddingLeft: '20px' }}>Trình độ cơ bản</span>
                                 </li>
                                 <li>
                                     <div className="fas fa-film"></div>
                                     <span style={{ paddingLeft: '20px' }}>Tổng số <b>22</b> bài học</span>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <div className="fa-solid fa-clock"></div>
                                     <span style={{ paddingLeft: '20px' }}>Thời lượng <b></b></span>
-                                </li>
+                                </li> */}
                                 <li>
                                     <div className="fa fa-battery-full"></div>
                                     <span style={{ paddingLeft: '20px' }}>Học mọi lúc, mọi nơi</span>
@@ -141,12 +279,17 @@ class DetailCourse extends Component {
 
 const mapStateToProps = state => {
     return {
-
+        userInfo: state.user.userInfo,
+        users: state.admin.users,
+        videosCourse: state.admin.videosCourse,
+        listUsers: state.admin.users,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
+        fetchUserRedux: () => dispatch(actions.fetchAllUsersStart()),
+        fetchVideoRedux: (courseId) => dispatch(actions.fetchAllVideosCourseStart(courseId)),
     };
 };
 

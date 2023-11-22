@@ -31,7 +31,13 @@ class TableManageBlog extends Component {
     }
     render() {
         let arrBlogs = this.state.blogsRedux;
-        const { listUsers } = this.props;
+        let listUsers = this.props.listUsers;
+        const style = {
+            display: '-webkit-box',
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+            WebkitLineClamp: '4',
+        };
         return (
 
             <React.Fragment>
@@ -39,21 +45,23 @@ class TableManageBlog extends Component {
                     <tbody>
                         <tr>
                             <th>Tiêu đề</th>
-                            <th>Chi tiết</th>
+                            <th style={{ width: '1000px' }}>Chi tiết</th>
                             <th>Người viết</th>
                             <th>Actions</th>
                         </tr>
                         {arrBlogs && arrBlogs.length > 0 &&
                             arrBlogs.map((item, index) => {
+                                const user = listUsers.find(user => user.id === item.userId);
+                                const lastName = user ? user.lastName : "Không tìm thấy";
+                                const firstName = user ? user.firstName : "Không tìm thấy";
                                 return (
                                     <tr key={index}>
                                         <td>{item.title}</td>
-                                        <td>
+                                        <td style={style}>
                                             {item.contentMarkdown}
                                         </td>
-                                        {/* <td>{item.userId}</td> */}
 
-                                        <td>{item.userId}</td>
+                                        <td>{firstName} {lastName}</td>
 
                                         <td>
 
@@ -84,7 +92,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchBlogRedux: () => dispatch(actions.fetchAllBlogsStart()),
-
         deleteABlogRedux: (id) => dispatch(actions.deleteABlog(id)),
     };
 };
