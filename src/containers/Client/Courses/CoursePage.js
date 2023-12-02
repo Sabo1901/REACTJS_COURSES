@@ -42,7 +42,7 @@ class CoursePage extends Component {
                 <div class="Home_wrapper__53Los" style={{ width: ' 90%', marginLeft: '90px' }}>
                     <div>
                         <h1 style={{ fontSize: '34px', fontWeight: '700', color: '#000000', marginBottom: '10px' }}>Tất cả khóa học</h1>
-                        <p>Tất cả khóa học đều miễn phí được tổng hợp từ nhiều nguồn trên Internet!</p>
+                        <h4>Tất cả khóa học đều miễn phí được tổng hợp từ nhiều nguồn trên Internet!</h4>
                     </div>
                     <div class="ScrollList_vertical__hG0sb">
                         <div style={{ marginTop: '-10px' }}>
@@ -72,12 +72,13 @@ class CoursePage extends Component {
                                                             onClick={() => this.handleViewDetailCourse(item)}
                                                         > Xem khóa học </button>
                                                     </a>
-                                                    <h3 class="CommonItem_title__EpYrE" style={{ fontWeight: '600' }}>
+                                                    <h3 class="CommonItem_title__EpYrE" style={{ fontWeight: '600', marginTop: '10px' }}>
                                                         <a href="#">{item.nameCourse}</a>
                                                     </h3>
+                                                    <div className='lecturers' style={{ color: '#6a6f73' }}>{item.lecturers}</div>
                                                     <div class="CourseItem_students-count__92kIg">
                                                         <i class="fa fa-users" aria-hidden="true" style={{ display: 'var(--fa-display, inline-block)', height: '1em', overflow: 'visible', verticalAlign: '-0.125em' }}></i>
-                                                        <span> 160</span>
+                                                        <span> {item.viewed}</span>
                                                     </div>
                                                 </div>
                                             </section>

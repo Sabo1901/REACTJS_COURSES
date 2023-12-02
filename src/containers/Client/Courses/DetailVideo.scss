@@ -15,7 +15,9 @@ body {
     border-left: 1px solid #e7e7e7;
     float: right;
     width: 23%;
-    
+    height: 545px;
+    overflow-x:hidden;
+    overflow-y:auto;
     z-index: 2;
 }
 .Content_wrapper__rvE31 {
@@ -30,6 +32,8 @@ body {
     flex-direction: column;
     height: 100%;
     width: 100%;
+    overflow-x:hidden;
+            overflow-y:auto;
 }
 .Tracks_header__zNeCh {
     align-items: center;
@@ -41,7 +45,7 @@ body {
     user-select: none;
 }
 .Tracks_heading__CjgkM {
-    font-size: 25px;
+    font-size: 23px;
     line-height: 1.4;
     margin: 0;
     font-weight: 700;
@@ -64,9 +68,15 @@ body {
 }
 .TrackItem_title__tR93h {
     color: #000000;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     margin: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 1;
+    height: 25px;
+    width: 257px;
 }
 .TrackItem_desc__KkiVq {
     color: #29303b;
@@ -111,12 +121,14 @@ body {
 }
 .StepItem_title__PgsXi {
     color: #000000;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 400;
     line-height: 1.4;
     margin: 0;
     position: relative;
     top: -2px;
+    display: -webkit-box;
+   
 }
 .StepItem_desc__zN9Bs {
     font-size: 11px;

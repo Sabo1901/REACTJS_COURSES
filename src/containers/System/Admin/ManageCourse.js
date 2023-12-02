@@ -39,7 +39,12 @@ class ManageCourse extends Component {
         if (prevProps.courses !== this.props.courses) {
             let dataSelect = this.buildDataInputSelect(this.props.courses)
             this.setState({
-                listCourses: dataSelect
+                listCourses: dataSelect,
+                contentMarkdown: '',
+                contentHTML: '',
+                selectedOption: '',
+                description: '',
+                action: CRUD_ACTIONS.CREATE,
             })
         }
     }

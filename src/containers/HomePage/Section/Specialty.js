@@ -65,7 +65,7 @@ class Specialty extends Component {
 
                                             <div className='nameCourse' onClick={() => this.handleViewDetailCourse(item)}>{item.nameCourse}</div>
                                             <div className='lecturers'>{item.lecturers}</div>
-                                            <div className='lecturers'>20 bài giảng</div>
+                                            {/* <div className='lecturers'>20 bài giảng</div> */}
 
                                         </div>
                                     )

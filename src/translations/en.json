@@ -53,7 +53,7 @@
         "add": "Add a new course",
         "nameCourse": "Name course",
         "lecturers": "Lecturers",
-        "detail": "Detail",
+        "detail": "Course Code",
         "describe": "Describe",
         "tantamount": "Tantamount",
         "viewed": "Viewed",
@@ -71,11 +71,14 @@
         "courseId": "Course",
         "linkVideo": "Link video",
         "chapter": "Chapter",
-        "titleArticle": "Title Article"
+        "titleArticle": "Title Article",
+        "title": "Blog Manager"
     },
     "manage-roadmap": {
         "scholastic": "Scholastic",
-        "credit": "credit",
+        "title": "Add new Course",
+        "roadmap": "Add new courses to the roadmap",
+        "credit": "Course code",
         "prerequisiteId": "Detail",
         "image": "Diagram",
         "course": "Khóa năm học",

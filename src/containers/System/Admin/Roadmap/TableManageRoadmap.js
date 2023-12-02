@@ -49,12 +49,19 @@ class TableManageRoadmap extends Component {
             const courseName = course ? course.nameCourse : "Không tìm thấy";
             const scholastic = scholastics.find(scholastic => scholastic.id === roadmap.scholasticId);
             const scholasticName = scholastic ? scholastic.scholastic : "Không tìm thấy";
+            // Chuyển đổi giá trị và từ khóa tìm kiếm thành chữ thường
+            const lowercasedCourseName = courseName.toLowerCase();
+            const lowercasedScholasticName = scholasticName.toLowerCase();
+            const lowercasedPrerequisite = roadmap.prerequisite.toString().toLowerCase();
+            const lowercasedCredit = roadmap.credit.toString().toLowerCase();
+            const lowercasedSemester = ('học kì ' + roadmap.semester).toLowerCase();
+            const lowercasedSearchKeyword = searchKeyword.toLowerCase();
             return (
-                roadmap.semester.toString().includes(searchKeyword) ||
-                courseName.includes(searchKeyword) ||
-                scholasticName.includes(searchKeyword) ||
-                roadmap.credit.toString().includes(searchKeyword) ||
-                roadmap.prerequisite.toString().includes(searchKeyword)
+                lowercasedSemester.toString().includes(lowercasedSearchKeyword) ||
+                lowercasedCourseName.includes(lowercasedSearchKeyword) ||
+                lowercasedScholasticName.includes(lowercasedSearchKeyword) ||
+                lowercasedPrerequisite.toString().includes(lowercasedSearchKeyword) ||
+                lowercasedCredit.toString().includes(lowercasedSearchKeyword)
             );
         });
     }
@@ -74,45 +81,46 @@ class TableManageRoadmap extends Component {
                         onChange={(event) => { this.setState({ searchKeyword: event.target.value }) }}
                     />
                 </div>
-                <table id='TableManageUser'>
-                    <tbody>
-                        <tr>
-                            <th><FormattedMessage id="manage-roadmap.courseId" /></th>
-                            <th><FormattedMessage id="manage-roadmap.scholasticId" /></th>
-                            <th><FormattedMessage id="manage-roadmap.semester" /></th>
-                            <th><FormattedMessage id="manage-roadmap.credit" /></th>
-                            <th><FormattedMessage id="manage-roadmap.prerequisite" /></th>
-                            <th><FormattedMessage id="manage-course.action" /></th>
-                        </tr>
-                        {arrRoadmaps && arrRoadmaps.length > 0 &&
-                            arrRoadmaps
-                                .slice()
-                                .sort((a, b) => a.courseId - b.courseId)
-                                .map((item, index) => {
-                                    const course = courses.find(course => course.id === item.courseId);
-                                    const courseName = course ? course.nameCourse : "Không tìm thấy";
-                                    const scholastic = scholastics.find(scholastic => scholastic.id === item.scholasticId);
-                                    const scholasticName = scholastic ? scholastic.scholastic : "Không tìm thấy";
-                                    console.log('name:', course);
-                                    return (
-                                        <tr key={index}>
-                                            <td>{courseName}</td>
-                                            <td>{scholasticName}</td>
-                                            <td>{item.semester}</td>
-                                            <td>{item.credit}</td>
-                                            <td>{item.prerequisite}</td>
-                                            <td>
-                                                <button className='btn-edit' onClick={() => this.handleEditRoadmap(item)}><i className="fas fa-pencil-alt"></i></button>
-                                                <button className='btn-delete' onClick={() => this.handleDeleteRoadmap(item)}><i className="fas fa-trash-alt"></i></button>
-                                            </td>
-                                        </tr>
-                                    )
-                                })
-                        }
+                <div className='table-container'>
+                    <table id='TableManageUser'>
+                        <tbody>
+                            <tr className='title-table'>
+                                <th><FormattedMessage id="manage-roadmap.courseId" /></th>
+                                <th><FormattedMessage id="manage-roadmap.scholasticId" /></th>
+                                <th><FormattedMessage id="manage-roadmap.semester" /></th>
+                                <th><FormattedMessage id="manage-roadmap.credit" /></th>
+                                <th><FormattedMessage id="manage-roadmap.prerequisite" /></th>
+                                <th><FormattedMessage id="manage-course.action" /></th>
+                            </tr>
+                            {arrRoadmaps && arrRoadmaps.length > 0 &&
+                                arrRoadmaps
+                                    .slice()
+                                    .sort((a, b) => a.courseId - b.courseId)
+                                    .map((item, index) => {
+                                        const course = courses.find(course => course.id === item.courseId);
+                                        const courseName = course ? course.nameCourse : "Không tìm thấy";
+                                        const scholastic = scholastics.find(scholastic => scholastic.id === item.scholasticId);
+                                        const scholasticName = scholastic ? scholastic.scholastic : "Không tìm thấy";
+                                        console.log('name:', course);
+                                        return (
+                                            <tr key={index}>
+                                                <td>{courseName}</td>
+                                                <td>{scholasticName}</td>
+                                                <td>{item.semester}</td>
+                                                <td>{item.credit}</td>
+                                                <td>{item.prerequisite}</td>
+                                                <td>
+                                                    <button className='btn-edit' onClick={() => this.handleEditRoadmap(item)}><i className="fas fa-pencil-alt"></i></button>
+                                                    <button className='btn-delete' onClick={() => this.handleDeleteRoadmap(item)}><i className="fas fa-trash-alt"></i></button>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
+                            }
 
-                    </tbody>
-                </table>
-
+                        </tbody>
+                    </table>
+                </div>
             </React.Fragment>
 
         );

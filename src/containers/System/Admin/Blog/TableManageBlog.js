@@ -37,43 +37,46 @@ class TableManageBlog extends Component {
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
             WebkitLineClamp: '4',
+            height: '96px',
         };
         return (
 
             <React.Fragment>
-                <table id='TableManageUser'>
-                    <tbody>
-                        <tr>
-                            <th>Tiêu đề</th>
-                            <th style={{ width: '1000px' }}>Chi tiết</th>
-                            <th>Người viết</th>
-                            <th>Actions</th>
-                        </tr>
-                        {arrBlogs && arrBlogs.length > 0 &&
-                            arrBlogs.map((item, index) => {
-                                const user = listUsers.find(user => user.id === item.userId);
-                                const lastName = user ? user.lastName : "Không tìm thấy";
-                                const firstName = user ? user.firstName : "Không tìm thấy";
-                                return (
-                                    <tr key={index}>
-                                        <td>{item.title}</td>
-                                        <td style={style}>
-                                            {item.contentMarkdown}
-                                        </td>
+                <div className='table-container'>
+                    <table id='TableManageUser'>
+                        <tbody>
+                            <tr className='title-table'>
+                                <th>Tiêu đề</th>
+                                <th style={{ width: '1000px' }}>Chi tiết</th>
+                                <th>Người viết</th>
+                                <th>Thao tác</th>
+                            </tr>
+                            {arrBlogs && arrBlogs.length > 0 &&
+                                arrBlogs.map((item, index) => {
+                                    const user = listUsers.find(user => user.id === item.userId);
+                                    const lastName = user ? user.lastName : "Không tìm thấy";
+                                    const firstName = user ? user.firstName : "Không tìm thấy";
+                                    return (
+                                        <tr key={index}>
+                                            <td>{item.title}</td>
+                                            <td style={style}>
+                                                {item.contentMarkdown}
+                                            </td>
 
-                                        <td>{firstName} {lastName}</td>
+                                            <td>{firstName} {lastName}</td>
 
-                                        <td>
+                                            <td>
 
-                                            <button className='btn-delete' onClick={() => this.handleDeleteVideo(item)}><i className="fas fa-trash-alt"></i></button>
-                                        </td>
-                                    </tr>
-                                )
-                            })
-                        }
+                                                <button className='btn-delete' onClick={() => this.handleDeleteVideo(item)}><i className="fas fa-trash-alt"></i></button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </React.Fragment>
 
         );

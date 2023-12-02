@@ -82,6 +82,11 @@ class CreateBlog extends Component {
             title: event.target.value
         })
     }
+    handleOnChangeDescription = (event) => {
+        this.setState({
+            description: event.target.value
+        })
+    }
     handleOnChangeUserId = (event) => {
         this.setState({
             userId: event.target.value
@@ -147,8 +152,8 @@ class CreateBlog extends Component {
                             </div> */}
                             <div>
                                 <textarea class="ContentEditable_wrapper__YxeRy NewPost_title-input__d-X6s" cols="20" name="ChitietTieuDe" placeholder="Mô tả khi tin được hiển thị" rows="2" style={{ border: 'none', borderBottom: '1px solid rgba(0,0,0,.15)', margin: '1.6rem 0 4px', paddingBottom: '4px', lineHeight: '1.4', marginTop: '60px', outline: 'none', color: 'rgb(41, 41, 41)', fontSize: '1.5rem', wordBreak: 'break-word', height: '90px', width: '95%' }}
-                                // onChange={(event) => this.handleOnChangeUserId(event)}
-                                // value={this.state.userId}
+                                    onChange={(event) => this.handleOnChangeDescription(event)}
+                                    value={this.state.description}
 
                                 >
 

@@ -139,7 +139,7 @@ class RoadmapRedux extends Component {
 
             <div className="user-redux-container" >
                 <div className='title'>
-                    <FormattedMessage id="manage-course.add" />
+                    <FormattedMessage id="manage-roadmap.roadmap" />
                 </div>
 
                 <div className='user-redux-body'>

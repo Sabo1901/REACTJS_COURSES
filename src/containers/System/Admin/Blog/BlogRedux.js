@@ -68,65 +68,12 @@ class BlogRedux extends Component {
 
             <div className="user-redux-container" >
                 <div className='title'>
-                    <FormattedMessage id="manage-video.add" />
+                    <FormattedMessage id="manage-video.title" />
                 </div>
 
-                <div className='user-redux-body'>
+                <div className='user-redux-body' style={{ marginTop: '40px' }}>
                     <div className='container'>
                         <div className='row'>
-
-                            {/* <div className='col-3'>
-                                <label><FormattedMessage id="manage-video.courseId" /></label>
-                                <select className='form-control'
-                                    onChange={(event) => { this.onChangeInput(event, 'courseId') }}
-                                    value={courseId}
-                                >
-                                    {videos && videos.length > 0 &&
-                                        videos.map((item, index) => {
-                                            return (
-                                                <option key={index} value={item.id}>
-                                                    {item.nameCourse}
-                                                </option>
-                                            )
-                                        })}
-                                </select>
-                            </div>
-                            <div className='col-3'>
-                                <label><FormattedMessage id="manage-video.linkVideo" /></label>
-                                <input className='form-control' type='text'
-                                    value={linkVideo}
-                                    onChange={(event) => { this.onChangeInput(event, 'linkVideo') }}
-                                />
-                            </div>
-                            <div className='col-3'>
-                                <label><FormattedMessage id="manage-video.chapter" /></label>
-                                <input className='form-control' type='text'
-                                    value={chapter}
-                                    onChange={(event) => { this.onChangeInput(event, 'chapter') }}
-                                />
-                            </div>
-                            <div className='col-3'>
-                                <label><FormattedMessage id="manage-video.titleArticle" /></label>
-                                <input className='form-control' type='text'
-                                    value={titleArticle}
-                                    onChange={(event) => { this.onChangeInput(event, 'titleArticle') }}
-                                />
-                            </div>
-
-
-
-
-                            <div className='col-12 my-3'>
-                                <button className={this.state.action === CRUD_ACTIONS.EDIT ? "btn btn-warning" : "btn btn-primary"}
-                                    onClick={() => this.handleSaveVideo()}>
-
-                                    {this.state.action === CRUD_ACTIONS.EDIT ?
-                                        <FormattedMessage id="manage-course.edit" />
-                                        :
-                                        <FormattedMessage id="manage-course.save" />
-                                    }
-                                </button>
-                            </div> */}
                             <div className='col-12 mb-5'>
                                 <TableManageBlog
                                     handleEditVideoFromParent={this.handleEditVideoFromParent}

@@ -57,12 +57,16 @@ class TableManageCourse extends Component {
             return coursesRedux;
         }
         return coursesRedux.filter(courses => {
+            const lowercasedNameCourse = courses.nameCourse.toString().toLowerCase();
+            const lowercasedDescribe = courses.describe.toString().toLowerCase();
+            const lowercasedDetail = courses.detail.toString().toLowerCase();
+            const lowercasedLecturers = courses.lecturers.toString().toLowerCase();
+            const lowercasedSearchKeyword = searchKeyword.toLowerCase();
             return (
-                courses.nameCourse.includes(searchKeyword) ||
-                courses.describe.includes(searchKeyword) ||
-                courses.detail.includes(searchKeyword) ||
-                courses.tantamount.toString().includes(searchKeyword) ||
-                courses.lecturers.includes(searchKeyword)
+                lowercasedNameCourse.includes(lowercasedSearchKeyword) ||
+                lowercasedDescribe.includes(lowercasedSearchKeyword) ||
+                lowercasedDetail.includes(lowercasedSearchKeyword) ||
+                lowercasedLecturers.includes(lowercasedSearchKeyword)
 
             );
         });
@@ -82,43 +86,46 @@ class TableManageCourse extends Component {
                         onChange={(event) => { this.setState({ searchKeyword: event.target.value }) }}
                     />
                 </div>
-                <table id='TableManageUser'>
-                    <tbody>
-                        <tr>
-                            <th><FormattedMessage id="manage-course.nameCourse" /></th>
-                            <th><FormattedMessage id="manage-course.lecturers" /></th>
-                            <th><FormattedMessage id="manage-course.detail" /></th>
-                            <th><FormattedMessage id="manage-course.describe" /></th>
-                            <th><FormattedMessage id="manage-course.tantamount" /></th>
-                            <th><FormattedMessage id="manage-course.viewed" /></th>
-                            <th><FormattedMessage id="manage-course.action" /></th>
-                        </tr>
-                        {arrCourses && arrCourses.length > 0 &&
-                            arrCourses
-                                .slice()
-                                .sort((a, b) => a.nameCourse.localeCompare(b.nameCourse))
-                                .map((item, index) => {
-                                    return (
-                                        <tr key={index}>
-                                            <td>{item.nameCourse}</td>
-                                            <td>{item.lecturers}</td>
-                                            <td>{item.detail}</td>
-                                            <td>{item.describe}</td>
-                                            <td>{item.tantamount}</td>
-                                            <td>{item.viewed}</td>
-                                            <td>
-                                                <button className='btn-edit' onClick={() => this.handleEditCourse(item)}><i className="fas fa-pencil-alt"></i></button>
-                                                <button className='btn-delete' onClick={() => this.handleDeleteCourse(item)}><i className="fas fa-trash-alt"></i></button>
-                                            </td>
-                                        </tr>
-                                    )
-                                })
-                        }
+                <div className='table-container'>
+                    <table id='TableManageUser'>
+                        <tbody>
+                            <tr className='title-table'>
+                                <th>STT</th>
+                                <th><FormattedMessage id="manage-course.nameCourse" /></th>
+                                <th><FormattedMessage id="manage-course.lecturers" /></th>
+                                <th><FormattedMessage id="manage-course.detail" /></th>
+                                {/* <th><FormattedMessage id="manage-course.describe" /></th> */}
+                                {/* <th><FormattedMessage id="manage-course.tantamount" /></th> */}
+                                <th><FormattedMessage id="manage-course.viewed" /></th>
+                                <th><FormattedMessage id="manage-course.action" /></th>
+                            </tr>
+                            {arrCourses && arrCourses.length > 0 &&
+                                arrCourses
+                                    .slice()
+                                    .sort((a, b) => a.nameCourse.localeCompare(b.nameCourse))
+                                    .map((item, index) => {
+                                        return (
+                                            <tr key={index}>
+                                                <td>{index + 1}</td>
+                                                <td>{item.nameCourse}</td>
+                                                <td>{item.lecturers}</td>
+                                                <td>{item.detail}</td>
+                                                {/* <td>{item.describe}</td> */}
+                                                {/* <td>{item.tantamount}</td> */}
+                                                <td>{item.viewed}</td>
+                                                <td>
+                                                    <button className='btn-edit' onClick={() => this.handleEditCourse(item)}><i className="fas fa-pencil-alt"></i></button>
+                                                    <button className='btn-delete' onClick={() => this.handleDeleteCourse(item)}><i className="fas fa-trash-alt"></i></button>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
+                            }
 
-                    </tbody>
-                </table>
-                {/* <MdEditor style={{ height: '500px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} /> */}
-
+                        </tbody>
+                    </table>
+                    {/* <MdEditor style={{ height: '500px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} /> */}
+                </div>
             </React.Fragment>
 
         );

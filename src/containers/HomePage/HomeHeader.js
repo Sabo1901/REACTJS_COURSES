@@ -6,6 +6,7 @@ import { changeLanguageApp } from '../../store/actions';
 import { FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router';
 import * as actions from "../../store/actions";
+import logo from "../../assets/avatar.jpg";
 class HomeHeader extends Component {
     constructor(props) {
         super(props);
@@ -107,13 +108,14 @@ class HomeHeader extends Component {
             }
         }
     }
+    handleLogout = () => {
+        const { processLogout, history } = this.props;
+        processLogout();
+        // Redirect to the home page
+        history.push('/home');
+    }
     render() {
-        //let language = this.props.language;
-
         const { processLogout, language, userInfo, listUsers } = this.props;
-        // const course = listUsers.find(user => user.id === userInfo.id);
-        // const scholastic = course ? course.scholasticId : "0";
-
         const hasUserInfo = userInfo && userInfo.id;
         const course = listUsers.find(user => user.id === userInfo?.id);
         const scholastic = hasUserInfo ? (course ? course.scholasticId : "0") : "0";
@@ -183,12 +185,19 @@ class HomeHeader extends Component {
                                     <span className='welcome NavBar_avatar-wrapper__j7jMj'
                                         style={{ cursor: 'pointer', display: 'flex' }}>
                                         <div class="FallbackAvatar_avatar__gmj3S" onClick={() => this.handleClickProfile()} style={{ fontSize: '3.2px' }}>
-                                            <img class="NavBar_avatar__OG7ib" src={imageBase64}
-
-                                                alt="1118_Nguyễn Đình Hiếu" style={{
-                                                    marginTop: '5px',
-                                                    marginRight: '10px'
-                                                }} />
+                                            {imageBase64 ? (
+                                                <img class="NavBar_avatar__OG7ib" src={imageBase64}
+                                                    alt="1118_Nguyễn Đình Hiếu" style={{
+                                                        marginTop: '5px',
+                                                        marginRight: '10px'
+                                                    }} />
+                                            ) : (
+                                                <img class="NavBar_avatar__OG7ib" src={logo}
+                                                    alt="Hình khác" style={{
+                                                        marginTop: '5px',
+                                                        marginRight: '10px'
+                                                    }} />
+                                            )}
                                         </div>
                                     </span>
                                     <div className='info_user' id="tippy-4" style={{ zIndex: '9999', position: 'absolute', inset: ' 0px 0px auto auto', margin: '0px', transform: 'translate3d(-28px, 57.6px, 0px)' }}>
@@ -220,9 +229,12 @@ class HomeHeader extends Component {
 
                                     </div>
                                     {/* nút logout */}
-                                    <div className="btn btn-logout"
+                                    <div
+                                        className="btn btn-logout"
                                         style={{ color: '#ffffff', fontSize: '20px' }}
-                                        onClick={processLogout} title='Log out'>
+                                        onClick={this.handleLogout} // Update this line
+                                        title='Log out'
+                                    >
                                         <i className="fas fa-sign-out-alt"></i>
                                     </div>
                                 </div>

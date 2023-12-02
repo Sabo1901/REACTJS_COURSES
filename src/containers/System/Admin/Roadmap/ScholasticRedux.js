@@ -133,7 +133,7 @@ class ScholasticRedux extends Component {
         return (
             <div className="user-redux-container" >
                 <div className='title'>
-                    <FormattedMessage id="manage-course.add" />
+                    <FormattedMessage id="manage-roadmap.title" />
                 </div>
                 <div className='user-redux-body'>
                     <div className='container'>

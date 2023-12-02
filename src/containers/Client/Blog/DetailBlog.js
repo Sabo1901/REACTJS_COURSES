@@ -6,6 +6,7 @@ import * as actions from "../../../store/actions";
 import './CreateBlog.scss';
 import img from "../../../assets/nodejs.png";
 import { getDetailInforBlog } from '../../../services/userService';
+import logo from "../../../assets/avatar.jpg";
 import moment from 'moment';
 
 class DetailBlog extends Component {
@@ -52,21 +53,30 @@ class DetailBlog extends Component {
             <>
                 <HomeHeader isShowBanner={false} />
                 <div class="BlogDetail_wrapper__9lHHY">
-                    <section class="index-module_grid__1q71E index-module_fullWidth__3X-6x">
+                    <section class="index-module_grid__1q71E index-module_fullWidth__3X-6x" style={{ marginLeft: '100px' }}>
                         <section class="index-module_row__-AHgh">
                             <section class="index-module_col__2EQm9 index-module_c-12__u7UXF index-module_m-12__2CxUL index-module_l-6__JoV9k">
                                 <div>
                                     <h1 class="BlogDetail_heading__DUpyK" style={{ fontWeight: '700', color: 'black', marginBottom: '40px', marginTop: '40px' }}>{detailBlog.title}</h1>
                                     <div class="BlogDetail_header__w09Xd">
                                         <div class="BlogDetail_user__Q6EHE">
-                                            <a href="/user/details/8ac88c2a-b825-4e52-b831-11d384fabfbd">
+
+                                            {imageBase64 ? (
                                                 <div class="FallbackAvatar_avatar__gmj3S" style={{ fontSize: '5.6px' }}>
                                                     <img class="NavBar_avatar__OG7ib" src={imageBase64} alt="1118" />
 
                                                 </div>
-                                            </a>
+                                            ) : (
+                                                <div class="FallbackAvatar_avatar__gmj3S" style={{ fontSize: '5.6px' }}>
+                                                    <img class="NavBar_avatar__OG7ib" src={logo} alt="1118" />
+
+                                                </div>
+                                            )}
+
+
+
                                             <div class="BlogDetail_info__3xVU9">
-                                                <a href="/user/details/8ac88c2a-b825-4e52-b831-11d384fabfbd"><span class="BlogDetail_name__FKdW-">{firstName} {lastName}</span></a>
+                                                <a><span class="BlogDetail_name__FKdW-">{firstName} {lastName}</span></a>
                                                 <p class="BlogDetail_time__J0n0e">{formattedDate}</p>
 
                                             </div>

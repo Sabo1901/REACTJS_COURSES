@@ -7,7 +7,7 @@ import './DetailVideo.scss';
 import img from "../../../assets/detailvideo.jpg";
 import { getDetailInforCourse } from '../../../services/courseService';
 import { withRouter } from 'react-router';
-
+import axios from 'axios';
 
 class DetailVideo extends Component {
 
@@ -53,16 +53,10 @@ class DetailVideo extends Component {
     }
 
     handleClickVideo = () => {
-        const { srcc } = this.state;
-        //const arrListStr = srcc.split(' ');
-
-        //console.log('check test:', namevideos);
-
-
 
         let arrListStr = this.state.videosRedux.map(x => x.linkVideo);
         let namevideo = this.state.videosRedux.map(x => x.titleArticle);
-        // console.log('list src: ', namevideo);
+
 
         // Lấy tham chiếu đến nút button và các phần tử DOM khác (sử dụng React Refs hoặc componentDidMount)
         var VideoPlayer = document.querySelector(".VideoPlayer_player__CA18S");
@@ -140,20 +134,20 @@ class DetailVideo extends Component {
         return (
             <>
                 <HomeHeader isShowBanner={false} />
-                <div className="container" style={{ width: '1500px', marginLeft: '33px', marginTop: '10px' }}>
+                <div className="container" style={{ width: '1500px', marginLeft: '100px', marginTop: '10px' }}>
                     <div className="Tracks_wrapper__rjtW+">
                         <div className="Tracks_container__f6ZNT" id="learn-playlist">
                             <header className="Tracks_header__zNeCh">
                                 <h1 className="Tracks_heading__CjgkM">Nội dung khóa học</h1>
                             </header>
                             {Object.keys(videoByChapter).map((chapter, chapterIndex) => {
-
+                                let chapterItemCount = videoByChapter[chapter].length;
 
                                 return (
                                     <div className="Detail_items" key={chapterIndex} onClick={() => this.handleClickVideo()}>
                                         <div class="TrackItem_wrapper__5kdF3 toggle-btn inactiveShowContent">
                                             <h3 class="TrackItem_title__tR93h">{chapter}</h3>
-                                            <span class="TrackItem_desc__KkiVq">12</span>
+                                            <span class="TrackItem_desc__KkiVq">{chapterItemCount} bài học</span>
                                             <span class="TrackItem_icon__SLY+b">
                                                 <i class="svg-inline--fa fa fa-chevron-down btnlist" aria-hidden="true"></i>
                                             </span>

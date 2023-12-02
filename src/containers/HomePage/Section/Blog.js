@@ -40,6 +40,13 @@ class Blog extends Component {
 
     render() {
         let arrBlogs = this.state.arrBlogs;
+        const style = {
+            display: '-webkit-box',
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+            WebkitLineClamp: '2',
+            height: '51px',
+        };
         console.log('test:', this.props.topBlogsRedux)
         return (
             <div className='section-share section-blog' style={{ height: '310px' }}>
@@ -62,7 +69,7 @@ class Blog extends Component {
                                     return (
                                         <div className='img-customize' key={index} onClick={() => this.handleViewDetailBlog(item)}>
                                             <img src={imageBase64} />
-                                            <div className='nameCourse'>{item.title}</div>
+                                            <div className='nameCourse' style={style}>{item.title}</div>
                                         </div>
                                     )
                                 })}

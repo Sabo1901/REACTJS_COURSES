@@ -58,6 +58,12 @@ class BlogUser extends Component {
         window.location.href = `/edit-blog-user/${blog.id}`
 
     }
+    handleCreateBlog = () => {
+
+        if (this.props.history) {
+            this.props.history.push('/createblog')
+        }
+    }
     handleViewDetailBlog = (blog) => {
 
         if (this.props.history) {
@@ -67,6 +73,7 @@ class BlogUser extends Component {
 
     render() {
         const { userInfo } = this.props;
+        const hasUserInfo = userInfo && userInfo.id;
         let arrBlogs = this.state.blogsRedux;
         return (
             <>
@@ -77,6 +84,9 @@ class BlogUser extends Component {
                             <h1 class="DefaultLayout_heading__AvBHu">Bài viết của tôi</h1><div class="MarkdownParser_wrapper__JYN63 DefaultLayout_desc__rr0iE" style={{ fontSize: '15px', lineHeight: '1.6', }}>
                                 {/* <p>Tổng hợp các bài viết chia sẻ về kinh nghiệm tự học lập trình online và các kỹ thuật lập trình web.</p> */}
                             </div>
+                            {hasUserInfo && (
+                                <button onClick={() => this.handleCreateBlog()} class="custom-btn btn-13" style={{ display: 'block', marginBottom: '20px' }}>Tạo bài viết</button>
+                            )}
                         </div><div class="container-body">
                             <section class="index-module_row__-AHgh">
                                 <section class="index-module_col__2EQm9 index-module_c-12__u7UXF index-module_m-12__2CxUL index-module_l-8__yebHm">
@@ -84,6 +94,7 @@ class BlogUser extends Component {
                                         <div>
                                             {arrBlogs && arrBlogs.length > 0 &&
                                                 arrBlogs.map((item, index) => {
+
                                                     let imageBase64 = '';
                                                     if (item.image) {
                                                         imageBase64 = new Buffer(item.image, 'base64').toString('binary');
@@ -94,16 +105,8 @@ class BlogUser extends Component {
                                                     return (
                                                         <div className="PostItem_wrapper__5s6Lk" key={index}>
                                                             <div className="PostItem_header__kJhep">
-                                                                <div className="PostItem_author__-CiNM">
-                                                                    <a href="#">
-                                                                        <div class="FallbackAvatar_avatar__gmj3S FallbackAvatar_pro__-8mK+" style={{ fontSize: '2.9px' }}>
-                                                                            <img src={imageBase64} alt=" GzW" />
+                                                                <div class="PostItem_author__-CiNM">
 
-                                                                        </div>
-                                                                    </a>
-                                                                    <a href="">
-                                                                        <span> Nguyễn Đình Hiếu</span>
-                                                                    </a>
                                                                 </div>
                                                                 <div className='PostItem_author_Edit' style={{ display: 'flex' }}>
                                                                     <button className='btn-edit' onClick={() => this.handleEditVideo(item)}><i className="fas fa-pencil-alt"></i></button>

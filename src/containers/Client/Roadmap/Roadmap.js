@@ -9,6 +9,7 @@ import VIDU from "../../../assets/VIDU.png";
 import { getAScholastics } from '../../../services/courseService';
 import { withRouter } from 'react-router';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 class Roadmap extends Component {
 
     constructor(props) {
@@ -18,6 +19,10 @@ class Roadmap extends Component {
             roadmapsRedux: [],
             detailScholastic: {},
             isClicked: false,
+            isMouseOver: false,
+            hoveredButtonId: null,
+            clickedButtonId: null, // Thêm trạng thái để theo dõi button đang được nhấp
+            zIndexCounter: 1,
         }
     }
 
@@ -33,13 +38,14 @@ class Roadmap extends Component {
             }
             this.props.fetchRoadmapRedux(id);
             this.props.fetchCourseRedux();
-            // this.props.fetchScholasticRedux(1);
+
         }
 
     }
 
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+
         if (prevProps.roadmap !== this.props.roadmap) {
             this.setState({
                 scholasticsRedux: this.props.roadmap,
@@ -76,7 +82,9 @@ class Roadmap extends Component {
                 localTotalCredits: totalCredits,
                 localTotalCourses: totalCourses,
             });
+
         }
+        this.drawLines();
     }
     handleClick = () => {
         var toggleButtons = document.querySelectorAll(".toggle-btn");
@@ -122,6 +130,400 @@ class Roadmap extends Component {
 
     }
 
+
+    handleMouseOver = (buttonId) => {
+        this.setState((prevState) => ({
+            hoveredButtonId: buttonId,
+        }));
+    };
+
+    handleMouseOut = () => {
+        this.setState({
+            hoveredButtonId: null,
+        });
+    };
+    drawLines = () => {
+        let arrRoadmaps = this.state.scholasticsRedux;
+        let roadmapBySemester = {};
+        console.log('Clicked Button:', this.state.clickedButtonId);
+        // Tạo danh sách phần tử theo semester
+        arrRoadmaps.forEach((item, index) => {
+            // Kiểm tra xem semester đã tồn tại trong đối tượng chưa
+            if (!roadmapBySemester[item.semester]) {
+                roadmapBySemester[item.semester] = [];
+            }
+
+            // Thêm phần tử vào danh sách của semester
+            roadmapBySemester[item.semester].push(item);
+        });
+
+        const allCourses = [].concat(...Object.values(roadmapBySemester)); // Lấy tất cả các khóa học từ tất cả các học kì
+        const pairsWithSameCredit = [];
+
+        allCourses.forEach((course, index) => {
+            // Chuyển đổi prerequisite sang kiểu int
+            // const prerequisiteAsInt = parseInt(course.prerequisite, 10);
+            // console.log('check:', prerequisiteAsInt);
+            // console.log('course.credit:', course.credit);
+            const otherCoursesWithSameCreditAndSameSemester = allCourses.slice(index + 1)
+                .filter(otherCourse =>
+                    otherCourse.prerequisite === course.credit && otherCourse.semester !== course.semester
+                );
+
+            otherCoursesWithSameCreditAndSameSemester.forEach(otherCourse => {
+                pairsWithSameCredit.push({ course, otherCourse });
+            });
+        });
+        console.log('Clicked Button:', this.state.clickedButtonId);
+        console.log('Hovered Button:', this.state.hoveredButtonId);
+        const lines = [];
+        const { hoveredButtonId, zIndexCounter } = this.state;
+        pairsWithSameCredit.forEach(pair => {
+            const button1 = document.getElementById(`button-${pair.course.id}`);
+            const button2 = document.getElementById(`button-${pair.otherCourse.id}`);
+
+
+            if (button1 && button2) {
+                const rect1 = button1.getBoundingClientRect();
+                const rect2 = button2.getBoundingClientRect();
+
+
+                //const isHoveredButton2 = this.state.isMouseOver && this.state.hoveredButtonId === `button-${pair.course.id}`;
+
+                const isHoveredButton1 = hoveredButtonId === `button-${pair.course.id}`;
+                const isHoveredButton2 = hoveredButtonId === `button-${pair.otherCourse.id}`;
+
+                // Tính toán màu sắc dựa trên trạng thái của button
+                const lineColor = isHoveredButton1 || isHoveredButton2 ? "#ff0000" : "#687170";
+
+                const yourThreshold = 200;
+                // Xác định xem hai button có nằm trong hai cột gần nhau hay không
+                const isSameColumn = Math.abs(rect1.left - rect2.left) < yourThreshold; // Thay yourThreshold bằng ngưỡng bạn muốn
+                let x1, y1, x2, y2, x3, y3, x4, y4;
+                if (isSameColumn) {
+                    // Tính toán điểm nối giữa hai button
+                    x1 = rect1.left + rect1.width / 2;
+                    y1 = (rect1.top + rect1.bottom) / 2;
+                    x2 = rect2.left + rect2.width / 2;
+                    y2 = (rect2.top + rect2.bottom) / 2;
+
+                    // Tính toán điểm nối ở giữa trái phải của button1 và trên dưới của button2
+                    x3 = (x1 + x2) / 2;
+                    y3 = (rect1.top + rect1.bottom) / 2;
+                    x4 = (x1 + x2) / 2;
+                    y4 = (rect2.top + rect2.bottom) / 2;
+                    console.log('One or both:', rect1.top);
+                } else {
+                    // Tính toán điểm nối giữa hai button
+                    x1 = rect1.left + rect1.width / 2 + 60;
+                    y1 = (rect1.top + rect1.bottom) / 2;
+                    x2 = rect2.left + rect2.width / 2;
+                    y2 = (rect2.top + rect2.bottom) / 2 + 28;
+
+                    // Đường dọc đầu tiên
+                    x3 = rect1.right + 20;
+                    y3 = (rect1.top + rect1.bottom) / 2;
+                    x4 = x2;
+                    y4 = rect2.bottom + 20;
+                }
+                // Kiểm tra xem đoạn thẳng có cắt qua các button không
+                const isIntersecting = (
+                    this.isLineIntersectingButton({ x: x1, y: y1 }, { x: x3, y: y3 }, button1, button2) ||
+                    this.isLineIntersectingButton({ x: x2, y: y2 }, { x: x4, y: y4 }, button1, button2)
+                );
+                if (isHoveredButton1 || isHoveredButton2) {
+                    if (isSameColumn) {
+                        // Nếu không cắt qua bất kỳ button nào, thêm đoạn thẳng vào danh sách
+                        if (!isIntersecting) {
+                            // Tạo đoạn thẳng từ x1, y1 đến x3, y3 (đoạn thẳng ngang)
+                            lines.push(
+                                <line
+                                    key={`${pair.course.id}-${pair.otherCourse.id}-1`}
+                                    x1={x1 + 60}
+                                    y1={y1}
+                                    x2={x3}
+                                    y2={y3}
+                                    stroke={lineColor}  // Thêm màu sắc dựa trên trạng thái chuột
+                                    strokeWidth="2"
+                                    style={{ zIndex: zIndexCounter }}
+                                />
+                            );
+
+                            // Tạo đoạn thẳng từ x3, y3 đến x4, y4 (đoạn thẳng dọc)
+                            lines.push(
+                                <line
+                                    key={`${pair.course.id}-${pair.otherCourse.id}-2`}
+                                    x1={x3}
+                                    y1={y3}
+                                    x2={x4}
+                                    y2={y4}
+                                    stroke={lineColor}  // Thêm màu sắc dựa trên trạng thái chuột
+                                    strokeWidth="2"
+                                    style={{ zIndex: zIndexCounter }}
+                                />
+                            );
+                            // Tạo mũi tên chỉ vào button2
+                            lines.push(
+                                <line
+                                    key={`${pair.course.id}-${pair.otherCourse.id}-arrow`}
+                                    x1={x4}
+                                    y1={y4}
+                                    x2={x2 - 70}
+                                    y2={y2}
+                                    stroke={lineColor}  // Thêm màu sắc dựa trên trạng thái chuột
+                                    strokeWidth="2"
+                                    markerEnd="url(#arrowhead)"  // Thêm mũi tên
+                                    style={{ zIndex: zIndexCounter }}
+                                />
+                            );
+                        }
+                    } else {
+                        // Nếu không cắt qua bất kỳ button nào, thêm đoạn thẳng vào danh sách
+                        if (!isIntersecting) {
+
+
+                            // Tạo đoạn thẳng từ x1, y1 đến x3, y3 (đoạn thẳng ngang)
+                            lines.push(
+                                <line
+                                    key={`${pair.course.id}-${pair.otherCourse.id}-1`}
+                                    x1={x1}
+                                    y1={y1}
+                                    x2={x3}
+                                    y2={y3}
+                                    stroke={lineColor}  // Thêm màu sắc dựa trên trạng thái chuột
+                                    strokeWidth="2"
+                                    style={{ zIndex: zIndexCounter }}
+                                />
+                            );
+
+
+
+                            // Tạo đoạn thẳng từ x4, y4 đến x2, y2 (đoạn thẳng ngang)
+                            lines.push(
+                                <line
+                                    key={`${pair.course.id}-${pair.otherCourse.id}-arrow`}
+                                    x1={x4}
+                                    y1={y4}
+                                    x2={x2}
+                                    y2={y2 + 10}
+                                    stroke={lineColor}  // Thêm màu sắc dựa trên trạng thái chuột
+                                    strokeWidth="2"
+                                    markerEnd="url(#arrowhead)"  // Thêm mũi tên
+                                    style={{ zIndex: zIndexCounter }}
+                                />
+                            );
+
+
+                            // Tạo đoạn thẳng từ x3, y3 đến x4, y4 (đoạn thẳng dọc)
+                            lines.push(
+                                <line
+                                    key={`${pair.course.id}-${pair.otherCourse.id}-5`}
+                                    x1={x3}
+                                    y1={y3}
+                                    x2={x3}
+                                    y2={y4}
+                                    stroke={lineColor}  // Thêm màu sắc dựa trên trạng thái chuột
+                                    strokeWidth="2"
+                                    style={{ zIndex: zIndexCounter }}
+                                />
+                            );
+
+                            // Tạo đoạn thẳng từ x4, y4 đến x2, y2 (đoạn thẳng ngang)
+                            lines.push(
+                                <line
+                                    key={`${pair.course.id}-${pair.otherCourse.id}-6`}
+                                    x1={x3}
+                                    y1={y4}
+                                    x2={x2}
+                                    y2={y4}
+                                    stroke={lineColor}  // Thêm màu sắc dựa trên trạng thái chuột
+                                    strokeWidth="2"
+                                    style={{ zIndex: zIndexCounter }}
+                                />
+                            );
+
+                        }
+                    }
+                } else {
+                    if (isSameColumn) {
+                        // Nếu không cắt qua bất kỳ button nào, thêm đoạn thẳng vào danh sách
+                        if (!isIntersecting) {
+                            // Tạo đoạn thẳng từ x1, y1 đến x3, y3 (đoạn thẳng ngang)
+                            lines.push(
+                                <line
+                                    key={`${pair.course.id}-${pair.otherCourse.id}-1`}
+                                    x1={x1 + 60}
+                                    y1={y1}
+                                    x2={x3}
+                                    y2={y3}
+                                    stroke={lineColor}  // Thêm màu sắc dựa trên trạng thái chuột
+                                    strokeWidth="2"
+                                    strokeDasharray="5,5" // Thiết lập nét đứt
+                                    style={{ zIndex: zIndexCounter }}
+                                />
+                            );
+
+                            // Tạo đoạn thẳng từ x3, y3 đến x4, y4 (đoạn thẳng dọc)
+                            lines.push(
+                                <line
+                                    key={`${pair.course.id}-${pair.otherCourse.id}-2`}
+                                    x1={x3}
+                                    y1={y3}
+                                    x2={x4}
+                                    y2={y4}
+                                    stroke={lineColor}  // Thêm màu sắc dựa trên trạng thái chuột
+                                    strokeWidth="2"
+                                    strokeDasharray="5,5" // Thiết lập nét đứt
+                                    style={{ zIndex: zIndexCounter }}
+                                />
+                            );
+                            // Tạo mũi tên chỉ vào button2
+                            lines.push(
+                                <line
+                                    key={`${pair.course.id}-${pair.otherCourse.id}-arrow`}
+                                    x1={x4}
+                                    y1={y4}
+                                    x2={x2 - 70}
+                                    y2={y2}
+                                    stroke={lineColor}  // Thêm màu sắc dựa trên trạng thái chuột
+                                    strokeWidth="2"
+                                    strokeDasharray="5,5" // Thiết lập nét đứt
+                                    markerEnd="url(#arrowhead)"  // Thêm mũi tên
+                                    style={{ zIndex: zIndexCounter }}
+                                />
+                            );
+                        }
+                    } else {
+                        // Nếu không cắt qua bất kỳ button nào, thêm đoạn thẳng vào danh sách
+                        if (!isIntersecting) {
+
+
+                            // Tạo đoạn thẳng từ x1, y1 đến x3, y3 (đoạn thẳng ngang)
+                            lines.push(
+                                <line
+                                    key={`${pair.course.id}-${pair.otherCourse.id}-1`}
+                                    x1={x1}
+                                    y1={y1}
+                                    x2={x3}
+                                    y2={y3}
+                                    stroke={lineColor}  // Thêm màu sắc dựa trên trạng thái chuột
+                                    strokeWidth="2"
+                                    strokeDasharray="5,5" // Thiết lập nét đứt
+                                    style={{ zIndex: zIndexCounter }}
+                                />
+                            );
+
+
+
+                            // Tạo đoạn thẳng từ x4, y4 đến x2, y2 (đoạn thẳng ngang)
+                            lines.push(
+                                <line
+                                    key={`${pair.course.id}-${pair.otherCourse.id}-arrow`}
+                                    x1={x4}
+                                    y1={y4}
+                                    x2={x2}
+                                    y2={y2 + 10}
+                                    stroke={lineColor}  // Thêm màu sắc dựa trên trạng thái chuột
+                                    strokeWidth="2"
+                                    strokeDasharray="5,5" // Thiết lập nét đứt
+                                    markerEnd="url(#arrowhead)"  // Thêm mũi tên
+                                    style={{ zIndex: zIndexCounter }}
+                                />
+                            );
+
+
+                            // Tạo đoạn thẳng từ x3, y3 đến x4, y4 (đoạn thẳng dọc)
+                            lines.push(
+                                <line
+                                    key={`${pair.course.id}-${pair.otherCourse.id}-5`}
+                                    x1={x3}
+                                    y1={y3}
+                                    x2={x3}
+                                    y2={y4}
+                                    stroke={lineColor}  // Thêm màu sắc dựa trên trạng thái chuột
+                                    strokeWidth="2"
+                                    strokeDasharray="5,5" // Thiết lập nét đứt
+                                    style={{ zIndex: zIndexCounter }}
+                                />
+                            );
+
+                            // Tạo đoạn thẳng từ x4, y4 đến x2, y2 (đoạn thẳng ngang)
+                            lines.push(
+                                <line
+                                    key={`${pair.course.id}-${pair.otherCourse.id}-6`}
+                                    x1={x3}
+                                    y1={y4}
+                                    x2={x2}
+                                    y2={y4}
+                                    stroke={lineColor}  // Thêm màu sắc dựa trên trạng thái chuột
+                                    strokeWidth="2"
+                                    strokeDasharray="5,5" // Thiết lập nét đứt
+                                    style={{ zIndex: zIndexCounter }}
+                                />
+                            );
+
+                        }
+                    }
+                }
+            }
+        });
+
+        // In danh sách cặp khóa học có cùng credit vào console
+        console.log('Pairs with Same Credit:', pairsWithSameCredit);
+
+        // In các đoạn thẳng được vẽ vào console
+        console.log('Lines:', lines);
+
+        return (
+            <svg>
+                <defs>
+                    <marker
+                        id="arrowhead"
+                        markerWidth="5"  // Điều chỉnh chiều rộng của mũi tên
+                        markerHeight="4"  // Điều chỉnh chiều cao của mũi tên
+                        refX="0"
+                        refY="2"
+                        orient="auto"
+                    >
+                        <polygon points="0 0, 5 2, 0 4" />  {/* Điều chỉnh kích thước và hình dạng của mũi tên */}
+                    </marker>
+                </defs>
+                {lines.map((line, index) => (
+                    <g key={index}>
+                        {line}
+                    </g>
+                ))}
+            </svg>
+        );
+    };
+
+    // Kiểm tra xem đoạn thẳng có cắt qua button không
+    isLineIntersectingButton = (point1, point2, button1, button2) => {
+        const buttons = document.querySelectorAll('.your-button-class'); // Thay thế '.your-button-class' bằng class của các button
+
+        for (const button of buttons) {
+            if (button !== button1 && button !== button2) {
+                const rect = button.getBoundingClientRect();
+                const minX = Math.min(point1.x, point2.x);
+                const minY = Math.min(point1.y, point2.y);
+                const maxX = Math.max(point1.x, point2.x);
+                const maxY = Math.max(point1.y, point2.y);
+
+                if (
+                    rect.left < maxX &&
+                    rect.right > minX &&
+                    rect.top < maxY &&
+                    rect.bottom > minY
+                ) {
+                    return true; // Đoạn thẳng cắt qua một button khác
+                }
+            }
+        }
+
+        return false; // Đoạn thẳng không cắt qua bất kỳ button nào trừ button1 và button2
+    };
+
+
     render() {
         let { detailScholastic, localTotalCourses, localTotalCredits } = this.state;
         let arrRoadmaps = this.state.scholasticsRedux;
@@ -145,103 +547,99 @@ class Roadmap extends Component {
 
         // const { totalCredits, totalCourses } = this.state;
         // Xuất tổng số học kỳ và tổng số tín chỉ
+        const semesters = Object.keys(roadmapBySemester);
+        const maxCoursesInSemester = Math.max(...semesters.map(semester => roadmapBySemester[semester].length));
 
         return (
             <>
                 <HomeHeader isShowBanner={false} />
-                <div class="container" style={{ width: '1355px', marginTop: '40px' }}>
+                <div class="container" style={{ width: '1355px', height: '1000px', marginTop: '40px' }}>
                     <h1 style={{ fontWeight: '700' }}>Chương trình đào tạo ngành CNTT trường Đại học Công Nghệ TP.HCM</h1>
 
-                    <div class="content_left" style={{ width: '40.66667%' }}>
-                        <h2 style={{ fontSize: '26px', fontWeight: '700', marginTop: '90px' }}>Nội dung chương trình đào tạo Khóa {detailScholastic.scholastic}:</h2>
-                        <p style={{ fontSize: '15px', lineHeight: '1.6' }}>Tổng hợp tất cả các học phần lý thuyết và thực hành (không tính các học phần đại cương và các học phần không tích lũy) </p>
-                        <p style={{ fontSize: '15px', lineHeight: '1.6' }}>Các học phần có cùng Mã HP là các học phần tương đương (có thể học 1 trong số các học phần có cùng Mã HP) </p>
-                        <ul style={{ paddingLeft: '0' }}>
-                            <li><b>{this.state.localTotalCourses} môn</b></li>
-                            <li style={{ fontSize: '1.4rem', marginTop: '1px', opacity: '.8', padding: '0 8px' }}>•</li>
-                            <li><b>{this.state.localTotalCredits} tín chỉ</b></li>
-                        </ul>
-                        <div style={{ width: '510px' }}>
-                            {Object.keys(roadmapBySemester).map((semester, semesterIndex) => {
-                                let semesterTotalCredits = roadmapBySemester[semester].reduce((sum, subItem) => sum + subItem.credit, 0);
+                    <table>
+                        <thead>
+                            <tr>
 
-                                // Đếm số lượng phần tử trong mảng của từng semester
-                                let semesterItemCount = roadmapBySemester[semester].length;
-                                // Cập nhật biến địa phương
+                                {Object.keys(roadmapBySemester).map((semester, semesterIndex) => (
+                                    <th key={semesterIndex} style={{ textAlign: 'center' }}>Học kì {semester}</th>
+                                ))}
+                            </tr>
+                        </thead>
 
+                        <tbody>
+                            {Array.from({ length: maxCoursesInSemester }, (_, subIndex) => (
+                                <tr key={subIndex}>
+                                    {semesters.map((semester, semesterIndex) => {
+                                        const subItem = roadmapBySemester[semester][subIndex];
+                                        if (subItem) {
+                                            const course = courses.find(course => course.id === subItem.courseId);
+                                            const courseName = course ? course.nameCourse : "Không tìm thấy";
+                                            const credit = course ? course.tantamount : "Không tìm thấy";
 
-                                return (
-                                    <div class="product-details-tab " key={semesterIndex}>
-                                        <div class="nav-item toggle-btn inactiveShowContent" onClick={() => this.handleClick()}>
-                                            <div class="nav_chitiet" style={{ width: '510px' }} >
-                                                <span class="name-course" style={{ textAlign: 'center', fontFamily: 'sans-serif', textDecoration: 'none' }}><strong>Học kì: {semester}</strong></span>
-                                                <p class="timeCoures" style={{ fontWeight: '600' }}>{semesterItemCount} môn | {semesterTotalCredits} tín chỉ </p>
-                                            </div>
-                                        </div>
-                                        <br />
+                                            const courseId = course ? course.id : "Không tìm thấy";
+                                            console.log('courseId:', subItem.courseId);
+                                            return (
+                                                <td key={semesterIndex} style={{ textAlign: 'center', position: 'relative' }}>
+                                                    <Link to={`/detail-course/${courseId}`}>
+                                                        <button
+                                                            id={`button-${subItem.id}`}
 
-                                        <div class="tab-content" style={{ width: '100%', marginLeft: '0' }}>
-                                            {/* {roadmapBySemester[semester].map((subItem, subIndex) => {
-                                                const course = courses.find(course => course.id === subItem.courseId);
-                                                const courseName = course ? course.nameCourse : "Không tìm thấy";
+                                                            style={{
+                                                                padding: '16px 5px', cursor: 'pointer', fontSize: '10px', fontWeight: '600', width: '120px', height: '60px',
+                                                                display: 'flex',
+                                                                flexDirection: 'column',
+                                                                alignItems: 'center',
+                                                            }}
 
-                                                // Kiểm tra xem giá trị prerequisite đã được hiển thị chưa
-                                                const prerequisiteDisplayed = roadmapBySemester[semester].some(
-                                                    (prevItem, prevIndex) =>
-                                                        prevIndex < subIndex && prevItem.prerequisite === subItem.prerequisite
-                                                );
+                                                            onMouseOver={() => this.handleMouseOver(`button-${subItem.id}`)}
+                                                            onMouseOut={this.handleMouseOut}
+                                                        >
+                                                            <div style={{
+                                                                position: 'absolute',
+                                                                top: '23px',
+                                                                left: '25px',
+                                                                fontSize: '11px',
+                                                                fontWeight: '600'
+                                                            }}>
+                                                                <span
 
-                                                // Chỉ hiển thị giá trị đầu tiên nếu trùng prerequisite
-                                                if (!prerequisiteDisplayed) {
-                                                    return (
-                                                        <div class="tab-content-item" key={subIndex}>
-                                                            <a
-                                                                onClick={() => this.handleViewDetailCourse(subItem)}
-                                                                style={{ color: "black", cursor: "pointer" }}
-                                                            >
-                                                                <div class="chitiet_course">
-                                                                    <div class="CurriculumOfCourse_lessonName__llwRr" style={{ float: 'left', marginLeft: '-37px' }}>
-                                                                        {subItem.prerequisite} | {courseName}
-                                                                    </div>
-                                                                    <span class="time_course" style={{ marginRight: '-21px' }}>
-                                                                        {subItem.credit} tín chỉ
-                                                                    </span>
-                                                                </div>
-                                                            </a>
-                                                        </div>
-                                                    );
-                                                } else {
-                                                    return null; // Không hiển thị nếu giá trị đã được hiển thị trước đó
-                                                }
-                                            })} */}
-                                            {roadmapBySemester[semester].map((subItem, subIndex) => {
-                                                const course = courses.find(course => course.id === subItem.courseId);
-                                                const courseName = course ? course.nameCourse : "Không tìm thấy";
-
-                                                return (
-                                                    <div class="tab-content-item" key={subIndex}>
-                                                        <a onClick={() => this.handleViewDetailCourse(subItem)} style={{ color: 'black', cursor: 'pointer' }}>
-                                                            <div class="chitiet_course">
-                                                                <div class="CurriculumOfCourse_lessonName__llwRr" style={{ float: 'left', marginLeft: '-37px' }}>{subItem.prerequisite} | {courseName} </div>
-                                                                <span class="time_course" style={{ marginRight: '-21px' }}>{subItem.credit} tín chỉ</span>
+                                                                >
+                                                                    {subItem.credit} {/* Hiển thị mã HP ở góc trên trái */}
+                                                                </span>
+                                                                <span
+                                                                    style={{
+                                                                        marginLeft: '55px'
+                                                                    }}
+                                                                >
+                                                                    {credit} {/* Hiển thị tín chỉ ở góc trên phải */}
+                                                                </span>
                                                             </div>
-                                                        </a>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-                                );
 
-                            })}
-                        </div>
+                                                            <div style={{ height: '30px', width: '105px' }}>{courseName}</div>
 
-                    </div>
-                    <div class="content_right" style={{ width: '59.33333%' }}>
-                        <img src={VIDU} style={{ objectFit: 'cover', width: '100%' }} />
-                        <img src={detailScholastic.diagram} style={{ objectfit: 'cover', width: '100%', marginTop: '-75px' }} />
 
-                    </div>
+                                                        </button>
+                                                    </Link>
+                                                </td>
+                                            );
+                                        } else {
+                                            // Nếu không có khóa học cho học kì này, hiển thị cell trống
+                                            return <td key={semesterIndex}></td>;
+                                        }
+
+                                    })}
+
+                                </tr>
+
+                            ))}
+                            <svg style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, zIndex: '-1' }}>
+                                {this.drawLines()}
+                            </svg>
+
+                        </tbody>
+
+                    </table>
+
                 </div>
 
                 <HomeFooter isShowBanner={false} />

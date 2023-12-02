@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Redirect, Route, Switch } from 'react-router-dom';
+import AdminRedux from '../containers/System/Admin/AdminRedux';
 import UserManage from '../containers/System/UserManage';
 import UserRedux from '../containers/System/Admin/UserRedux';
 import CourseRedux from '../containers/System/Admin/CourseRedux';
@@ -20,7 +21,7 @@ class System extends Component {
                 <div className="system-container">
                     <div className="system-list">
                         <Switch>
-                            <Route path="/system/user-manage" component={UserManage} />
+                            <Route path="/system/user-manage" component={AdminRedux} />
                             <Route path="/system/user-redux" component={UserRedux} />
                             <Route path="/system/course-redux" component={CourseRedux} />
                             <Route path="/system/manage-course" component={ManageCourse} />

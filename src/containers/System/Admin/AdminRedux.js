@@ -6,9 +6,9 @@ import * as actions from "../../../store/actions";
 import './UserRedux.scss';
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
-import TableManageUser from './TableManageAdmin';
+import TableManageUser from './TableManageUser';
 
-class UserRedux extends Component {
+class AdminRedux extends Component {
 
     constructor(props) {
         super(props);
@@ -289,14 +289,11 @@ class UserRedux extends Component {
                                 >
                                     {roles && roles.length > 0 &&
                                         roles.map((item, index) => {
-                                            if (index > 0) {
-                                                return (
-                                                    <option key={index} value={item.keyMap}>
-                                                        {language === LANGUAGES.VI ? item.valueVi : item.valueEn}
-                                                    </option>
-                                                );
-                                            }
-                                            return null; // Bỏ qua giá trị đầu tiên
+                                            return (
+                                                <option key={index} value={item.keyMap}>
+                                                    {language === LANGUAGES.VI ? item.valueVi : item.valueEn}
+                                                </option>
+                                            );
                                         })}
                                 </select>
                             </div>
@@ -374,4 +371,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserRedux);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminRedux);

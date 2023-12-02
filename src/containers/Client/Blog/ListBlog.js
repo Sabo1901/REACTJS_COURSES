@@ -7,6 +7,8 @@ import './CreateBlog.scss';
 import img from "../../../assets/nodejs.png";
 import { withRouter } from 'react-router';
 import moment from 'moment';
+import ReactPaginate from 'react-paginate';
+import logo from "../../../assets/avatar.jpg";
 class ListBlog extends Component {
 
     constructor(props) {
@@ -14,6 +16,8 @@ class ListBlog extends Component {
         this.state = {
             blogsRedux: [],
             dataName: {},
+            offset: 0, // Số bài viết hiển thị trên mỗi trang
+            perPage: 6, // Số bài viết trên mỗi trang
         }
     }
 
@@ -36,9 +40,13 @@ class ListBlog extends Component {
     }
 
     handleSaveContentMarkdown = () => {
-
-
     }
+    handlePageClick = (data) => {
+        let selected = data.selected;
+        let offset = Math.ceil(selected * this.state.perPage);
+
+        this.setState({ offset: offset });
+    };
     handleViewDetailBlog = (blog) => {
         if (this.props.history) {
             this.props.history.push(`/detailblog/${blog.id}`)
@@ -59,9 +67,13 @@ class ListBlog extends Component {
     }
     render() {
         const { userInfo } = this.props;
-        let arrBlogs = this.state.blogsRedux;
+        // let arrBlogs = this.state.blogsRedux;
         let users = this.props.users;
         const hasUserInfo = userInfo && userInfo.id;
+        let arrBlogs = this.state.blogsRedux.slice(
+            this.state.offset,
+            this.state.offset + this.state.perPage
+        );
         return (
             <>
                 <HomeHeader isShowBanner={false} />
@@ -74,9 +86,7 @@ class ListBlog extends Component {
                             {hasUserInfo && (
                                 <button onClick={() => this.handleCreateBlog()} class="custom-btn btn-13" style={{ display: 'block', marginBottom: '20px' }}>Tạo bài viết</button>
                             )}
-                            {hasUserInfo && (
-                                <button onClick={() => this.handleListUserBlog(userInfo.id)} class="custom-btn btn-13">Bài viết của tôi</button>
-                            )}
+
                         </div>
                         <div class="container-body">
                             <section class="index-module_row__-AHgh">
@@ -103,12 +113,19 @@ class ListBlog extends Component {
                                                         <div class="PostItem_wrapper__5s6Lk" key={index}>
                                                             <div class="PostItem_header__kJhep">
                                                                 <div class="PostItem_author__-CiNM">
-                                                                    <a href="#">
-                                                                        <div class="FallbackAvatar_avatar__gmj3S FallbackAvatar_pro__-8mK+" style={{ fontSize: '2.9px' }}>
-                                                                            <img src={imageBase64} alt=" GzW" />
-
-                                                                        </div>
-                                                                    </a>
+                                                                    {imageBase64 ? (
+                                                                        <a href="#">
+                                                                            <div class="FallbackAvatar_avatar__gmj3S FallbackAvatar_pro__-8mK+" style={{ fontSize: '2.9px' }}>
+                                                                                <img src={imageBase64} alt=" GzW" />
+                                                                            </div>
+                                                                        </a>
+                                                                    ) : (
+                                                                        <a href="#">
+                                                                            <div class="FallbackAvatar_avatar__gmj3S FallbackAvatar_pro__-8mK+" style={{ fontSize: '2.9px' }}>
+                                                                                <img src={logo} alt=" GzW" />
+                                                                            </div>
+                                                                        </a>
+                                                                    )}
                                                                     <a href="">
                                                                         <span> {firstName} {lastName}</span>
                                                                     </a>
@@ -119,7 +136,7 @@ class ListBlog extends Component {
                                                                     <a href="" onClick={() => this.handleViewDetailBlog(item)}>
                                                                         <h2 class="PostItem_title__8lSHm">{item.title}</h2>
                                                                     </a>
-                                                                    <p class="PostItem_desc__be9G8">{item.contentMarkdown} </p>
+                                                                    <p class="PostItem_desc__be9G8">{item.description} </p>
                                                                     <div class="PostItem_info__DZr39">
 
                                                                         <span>{formattedDate}</span>
@@ -140,7 +157,19 @@ class ListBlog extends Component {
 
 
                                         </div>
-
+                                        <ReactPaginate
+                                            previousLabel={'Trước'}
+                                            nextLabel={'Sau'}
+                                            breakLabel={'...'}
+                                            breakClassName={'break-me'}
+                                            pageCount={Math.ceil(this.state.blogsRedux.length / this.state.perPage)}
+                                            marginPagesDisplayed={2}
+                                            pageRangeDisplayed={5}
+                                            onPageChange={this.handlePageClick}
+                                            containerClassName={'pagination'}
+                                            subContainerClassName={'pages pagination'}
+                                            activeClassName={'active'}
+                                        />
                                     </div>
                                 </section>
 

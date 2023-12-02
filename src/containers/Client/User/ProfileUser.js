@@ -5,7 +5,7 @@ import HomeFooter from '../../HomePage/HomeFooter';
 import './ProfileUser.scss';
 import * as actions from '../../../store/actions';
 import { getDetailInforUser } from '../../../services/userService';
-import specialtyImg from "../../../assets/specialty/cntta.png";
+import specialtyImg from "../../../assets/avatar.jpg";
 class ProfileUser extends Component {
 
     constructor(props) {
@@ -43,11 +43,11 @@ class ProfileUser extends Component {
                     address: res.data.address,
                     gender: res.data.gender,
                     role: res.data.roleId,
+                    avatar: res.data.image,
                     userEditId: res.data.id
                 })
             }
         }
-        console.log('check data: ', this.state.firstName);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -100,14 +100,23 @@ class ProfileUser extends Component {
             role: user.roleId,
             userEditId: user.id
         })
-        console.log('check data: ', this.setState);
+
     }
     render() {
+        let { email, password, firstName, lastName, phonenumber, address, gender, role, avatar } = this.state;
+        const { userInfo, listUsers } = this.props;
+        const hasUserInfo = userInfo && userInfo.id;
+        const course = listUsers.find(user => user.id === userInfo?.id);
+        const image = hasUserInfo ? (course ? course.image : "0") : "0";
+        let imageBase64 = '';
+        if (image) {
+            imageBase64 = new Buffer(image, 'base64').toString('binary');
+        }
+
         let genders = this.state.genderArr;
         let roles = this.state.roleArr;
         let isGetGender = this.props.isLoadingGender;
-        // console.log('check data: ', firstName);
-        let { email, password, firstName, lastName, phonenumber, address, gender, role, avatar } = this.state;
+
         return (
             <>
                 <HomeHeader isShowBanner={false} />
@@ -116,11 +125,18 @@ class ProfileUser extends Component {
                     <div class="Profile_banner__tdS71" src="" style={{ backgroundImage: `url(https://i.pinimg.com/originals/03/dc/16/03dc16c3d2540ccb6beb758631f4b252.jpg)`, position: 'relative', objectFit: 'cover' }}>
                         <div class="Profile_user__iDkf1">
                             <div class="Profile_user-avatar__y8fSV">
-                                <div class="FallbackAvatar_avatar__gmj3S" style={{ fontSize: '17.2px' }}>
-                                    <img class="avatar" src={specialtyImg} alt="Null" />
+                                <div class="FallbackAvatar_avatar__gmj3S"
+                                    style={{ fontSize: '17.2px' }}
+                                >
+                                    {imageBase64 ? (
+                                        <img class="avatar" src={imageBase64} alt="Null" />
+                                    ) : (
+                                        <img class="avatar" src={specialtyImg} alt="Null" />
+                                    )}
+
                                 </div>
                             </div>
-                            <div class="Profile_user-name__xIJlY"><span>Hiếu Nguyễn</span></div>
+                            <div class="Profile_user-name__xIJlY"><span>{lastName} {firstName}</span></div>
                         </div>
                     </div>
 
@@ -187,6 +203,7 @@ const mapStateToProps = state => {
         genderRedux: state.admin.genders,
         roleRedux: state.admin.roles,
         isLoadingGender: state.admin.isLoadingGender,
+        userInfo: state.user.userInfo,
         listUsers: state.admin.users
     };
 };

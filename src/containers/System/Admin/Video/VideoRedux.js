@@ -31,7 +31,7 @@ class VideoRedux extends Component {
     async componentDidMount() {
 
         this.props.fetchCourseRedux();
-
+        this.props.fetchRoadmapRedux();
 
     }
 
@@ -217,6 +217,7 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchCourseRedux: () => dispatch(actions.fetchAllCoursesStart()),
         fetchVideoRedux: () => dispatch(actions.fetchAllVideosStart()),
+        fetchRoadmapRedux: () => dispatch(actions.fetchAllRoadmapsStart()),
         createNewVideo: (data) => dispatch(actions.createNewVideo(data)),
         editAVideoRedux: (data) => dispatch(actions.editAVideo(data))
 

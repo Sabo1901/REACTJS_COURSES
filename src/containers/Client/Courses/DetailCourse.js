@@ -106,7 +106,7 @@ class DetailCourse extends Component {
 
                 <div className="container" style={{ width: '1355px', marginTop: '40px' }}>
                     <div className="content_left">
-                        <h1> {detailCourse.nameCourse}</h1>
+                        <h1 style={{ fontSize: '32px', marginBottom: '15px' }}> {detailCourse.nameCourse}</h1>
                         {detailCourse && detailCourse.Markdown && detailCourse.Markdown.description
                             &&
                             <p style={{ fontSize: '15px', lineHeight: '1.6' }}>
@@ -115,7 +115,7 @@ class DetailCourse extends Component {
                         }
 
                         <div className="CourseDetail_topicList__vLbNG">
-                            <h2 className="CourseDetail_topicHeading__xbkxm">Bạn học được gì?</h2>
+                            <h2 className="CourseDetail_topicHeading__xbkxm" style={{ fontSize: '25px' }}>Bạn học được gì?</h2>
                             <section className="index-module_row__-AHgh">
                                 <section className="index-module_col__2EQm9 index-module_c-12__u7UXF index-module_m-12__2CxUL index-module_l-12__340Ve">
                                     <ul className="CourseDetail_list__pdfCp">
@@ -136,26 +136,23 @@ class DetailCourse extends Component {
                                 </section>
                             </section>
                         </div>
-                        <h2 style={{ fontSize: '25px', fontWeight: '700' }}>Nội dung khóa học:</h2>
+                        <h2 style={{ fontSize: '25px', fontWeight: '700', marginBottom: '15px' }}>Nội dung khóa học:</h2>
                         <ul style={{ paddingLeft: 0 }}>
                             <li><b>{totalChapters}</b> Chương</li>
                             <li style={{ fontSize: '1.4rem', marginTop: '1px', opacity: '.8', padding: '0 8px' }}>•</li>
                             <li><b>{totalVideos}</b> Bài học</li>
-
                         </ul>
                         <div>
-
                             {Object.keys(videoByChapter).map((chapter, chapterIndex) => {
                                 // Đếm số lượng phần tử trong mảng của từng semester
                                 let chapterItemCount = videoByChapter[chapter].length;
                                 // Cập nhật biến địa phương
 
                                 return (
-
                                     <div class="product-details-tab ">
                                         <div class="nav-item toggle-btn inactiveShowContent" key={chapterIndex} onClick={() => this.handleClickCourse()}>
                                             <div class="nav_chitiet">
-                                                <span class="name-course" style={{ textAlign: 'center', fontFamily: 'sans-serif', textDecoration: 'none' }}><strong>{chapter}. Giới thiệu</strong></span>
+                                                <span class="name-course" style={{ textAlign: 'center', fontFamily: 'sans-serif', textDecoration: 'none' }}><strong>{chapter}</strong></span>
                                                 <p class="timeCoures" style={{ fontWeight: '600' }}>{chapterItemCount} bài học</p>
                                             </div>
                                         </div>
@@ -180,58 +177,7 @@ class DetailCourse extends Component {
                                 )
                             })
                             }
-                            {/* <div class="product-details-tab ">
-                                <div class="nav-item toggle-btn inactiveShowContent">
-                                    <div class="nav_chitiet">
-                                        <span class="name-course" style={{ textAlign: 'center', fontFamily: 'sans-serif', textDecoration: 'none' }}><strong>2. Giới thiệu</strong></span>
-                                        <p class="timeCoures" style={{ fontWeight: '600' }}>2 bài học</p>
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="tab-content">
-
-                                    <div class="tab-content-item">
-                                        <div class="chitiet_course">
-                                            <span class="fas fa-play-circle CurriculumOfCourse_icon__1fxR9 CurriculumOfCourse_video__GQtG1"></span>
-                                            <div class="CurriculumOfCourse_lessonName__llwRr" style={{ float: 'left', marginleft: '10px' }}>Bài 3: Khái niệm, đặc điểm của ngôn ngữ C  </div>
-
-                                            <span class="time_course">10:14</span>
-                                        </div>
-                                    </div>
-                                    <div class="tab-content-item">
-                                        <div class="chitiet_course">
-                                            <span class="fas fa-play-circle CurriculumOfCourse_icon__1fxR9 CurriculumOfCourse_video__GQtG1"></span>
-                                            <div class="CurriculumOfCourse_lessonName__llwRr" style={{ float: 'left', marginleft: '10px' }}>Bài 4: Cấu trúc và chương trình C đầu tiên  </div>
-
-                                            <span class="time_course">15:04</span>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div> */}
-
                         </div>
-                        {/* <div className="request">
-                            <h2 style={{ fontSize: '25px', fontWeight: '700', margin: '70px 0 15px' }}>Yêu cầu</h2>
-                            <section className="request_index" style={{ marginLeft: '-12px', marginRight: '-12px' }}>
-                                <section className="request_index_chitiet">
-                                    <ul className="request_index_chitiet_ul">
-                                        <li><div className="fa fa-check yeucau"></div><span>Máy vi tính kết nối internet (Windows, Ubuntu hoặc MacOS)</span></li>
-                                        <li><div className="fa fa-check yeucau"></div><span>Ý thức tự học cao, trách nhiệm cao, kiên trì bền bỉ không ngại cái khó</span></li>
-                                        <li><div className="fa fa-check yeucau"></div><span>Khi học nếu có khúc mắc hãy tham gia hỏi/đáp tại group FB: Học lập trình web cùng H</span></li>
-                                        <li><div className="fa fa-check yeucau"></div><span>Bạn không cần biết gì hơn nữa, trong khóa học tôi sẽ chỉ cho bạn những gì bạn cần phải biết</span></li>
-                                    </ul>
-                                </section>
-                            </section>
-                        </div> */}
-                        {/* {detailCourse && detailCourse.describe
-                            &&
-                            <div className='video-intro'>
-                                <iframe width="700" height="400"
-                                    src={detailCourse.describe}>
-                                </iframe>
-                            </div>
-                        } */}
                     </div>
                     <div className="content_right">
                         <div className="Course_detail">
@@ -256,7 +202,7 @@ class DetailCourse extends Component {
                                 </li>
                                 <li>
                                     <div className="fas fa-film"></div>
-                                    <span style={{ paddingLeft: '20px' }}>Tổng số <b>22</b> bài học</span>
+                                    <span style={{ paddingLeft: '20px' }}>Tổng số <b>{totalVideos}</b> bài học</span>
                                 </li>
                                 {/* <li>
                                     <div className="fa-solid fa-clock"></div>

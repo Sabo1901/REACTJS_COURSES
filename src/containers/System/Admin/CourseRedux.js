@@ -43,7 +43,7 @@ class CourseRedux extends Component {
                 lecturers: '',
                 detail: '',
                 describe: '',
-                tantamount: '',
+                // tantamount: '',
                 viewed: '',
                 avatar: '',
                 action: CRUD_ACTIONS.CREATE,
@@ -80,7 +80,7 @@ class CourseRedux extends Component {
                 lecturers: this.state.lecturers,
                 detail: this.state.detail,
                 describe: this.state.describe,
-                tantamount: this.state.tantamount,
+                // tantamount: this.state.tantamount,
                 viewed: this.state.viewed,
                 avatar: this.state.avatar
             })
@@ -92,7 +92,7 @@ class CourseRedux extends Component {
                 lecturers: this.state.lecturers,
                 detail: this.state.detail,
                 describe: this.state.describe,
-                tantamount: this.state.tantamount,
+                // tantamount: this.state.tantamount,
                 viewed: this.state.viewed,
                 avatar: this.state.avatar
             })
@@ -101,7 +101,7 @@ class CourseRedux extends Component {
 
     checkValidateInput = () => {
         let isValid = true;
-        let arrCheck = ['nameCourse', 'lecturers', 'detail', 'describe', 'tantamount', 'viewed']
+        let arrCheck = ['nameCourse', 'lecturers', 'detail', 'describe', 'viewed']
         for (let i = 0; i < arrCheck.length; i++) {
             if (!this.state[arrCheck[i]]) {
                 isValid = false;
@@ -132,7 +132,6 @@ class CourseRedux extends Component {
             lecturers: course.lecturers,
             detail: course.detail,
             describe: course.describe,
-            tantamount: course.tantamount,
             viewed: course.viewed,
             previewImgURL: imageBase64,
             avatar: '',
@@ -144,7 +143,7 @@ class CourseRedux extends Component {
 
     render() {
         let language = this.props.language;
-        let { nameCourse, lecturers, detail, describe, tantamount, viewed, avatar } = this.state;
+        let { nameCourse, lecturers, detail, describe, viewed, avatar } = this.state;
 
         return (
 
@@ -192,13 +191,7 @@ class CourseRedux extends Component {
                                     onChange={(event) => { this.onChangeInput(event, 'viewed') }}
                                 />
                             </div>
-                            <div className='col-3'>
-                                <label><FormattedMessage id="manage-course.tantamount" /></label>
-                                <input className='form-control' type='text'
-                                    value={tantamount}
-                                    onChange={(event) => { this.onChangeInput(event, 'tantamount') }}
-                                />
-                            </div>
+
                             <div className='col-3'>
                                 <label><FormattedMessage id="manage-course.image" /></label>
                                 <div className='preview-img-container'>

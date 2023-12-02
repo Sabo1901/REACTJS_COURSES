@@ -5,7 +5,7 @@ import './TableManageUser.scss';
 import * as actions from "../../../store/actions";
 
 
-class TableManageUser extends Component {
+class TableManageAdmin extends Component {
 
     constructor(props) {
         super(props);
@@ -40,7 +40,7 @@ class TableManageUser extends Component {
         if (!searchKeyword) {
             return usersRedux.filter(user => {
                 // Loại bỏ người dùng có vai trò là "Quản trị viên"
-                return user.roleId !== 'R3';
+                return user.roleId !== 'R1';
             });
         }
         const lowercasedKeyword = searchKeyword.toLowerCase();
@@ -58,7 +58,7 @@ class TableManageUser extends Component {
                 lowercasedLastName.includes(lowercasedSearchKeyword) ||
                 lowercasedEmail.includes(lowercasedSearchKeyword) ||
                 lowercasedFirstName.includes(lowercasedSearchKeyword)
-            ) && user.roleId !== 'R3';
+            ) && user.roleId !== 'R1';
         });
     }
     render() {
@@ -128,4 +128,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TableManageUser);
+export default connect(mapStateToProps, mapDispatchToProps)(TableManageAdmin);

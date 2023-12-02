@@ -4,12 +4,21 @@
     border-collapse: collapse;
     width: 100%;
   }
-  
+  .table-container {
+    max-height: 450px; /* Đặt chiều cao tối đa của container */
+    overflow-y: auto; /* Tạo thanh cuộn dọc */
+    position: relative;
+}
   #TableManageUser td, #TableManageUser th {
     border: 1px solid #ddd;
     padding: 8px;
   }
-  
+  .title-table{
+    position: sticky;
+    top: 0;
+    z-index: 1;
+
+  }
   #TableManageUser tr:nth-child(even){background-color: #f2f2f2;}
   
   #TableManageUser tr:hover {background-color: #ddd;}
