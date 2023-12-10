@@ -54,6 +54,8 @@ class TableManageRoadmap extends Component {
             const lowercasedScholasticName = scholasticName.toLowerCase();
             const lowercasedPrerequisite = roadmap.prerequisite.toString().toLowerCase();
             const lowercasedCredit = roadmap.credit.toString().toLowerCase();
+            const lowercasedAlternativecourse = roadmap.alternativecourse.toString().toLowerCase();
+            const lowercasedConcurrentcourse = roadmap.concurrentcourse.toString().toLowerCase();
             const lowercasedSemester = ('học kì ' + roadmap.semester).toLowerCase();
             const lowercasedSearchKeyword = searchKeyword.toLowerCase();
             return (
@@ -61,6 +63,8 @@ class TableManageRoadmap extends Component {
                 lowercasedCourseName.includes(lowercasedSearchKeyword) ||
                 lowercasedScholasticName.includes(lowercasedSearchKeyword) ||
                 lowercasedPrerequisite.toString().includes(lowercasedSearchKeyword) ||
+                lowercasedAlternativecourse.toString().includes(lowercasedSearchKeyword) ||
+                lowercasedConcurrentcourse.toString().includes(lowercasedSearchKeyword) ||
                 lowercasedCredit.toString().includes(lowercasedSearchKeyword)
             );
         });
@@ -90,6 +94,8 @@ class TableManageRoadmap extends Component {
                                 <th><FormattedMessage id="manage-roadmap.semester" /></th>
                                 <th><FormattedMessage id="manage-roadmap.credit" /></th>
                                 <th><FormattedMessage id="manage-roadmap.prerequisite" /></th>
+                                <th>HP thay thế</th>
+                                <th>HP song song</th>
                                 <th><FormattedMessage id="manage-course.action" /></th>
                             </tr>
                             {arrRoadmaps && arrRoadmaps.length > 0 &&
@@ -109,6 +115,8 @@ class TableManageRoadmap extends Component {
                                                 <td>{item.semester}</td>
                                                 <td>{item.credit}</td>
                                                 <td>{item.prerequisite}</td>
+                                                <td>{item.alternativecourse}</td>
+                                                <td>{item.concurrentcourse}</td>
                                                 <td>
                                                     <button className='btn-edit' onClick={() => this.handleEditRoadmap(item)}><i className="fas fa-pencil-alt"></i></button>
                                                     <button className='btn-delete' onClick={() => this.handleDeleteRoadmap(item)}><i className="fas fa-trash-alt"></i></button>

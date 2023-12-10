@@ -325,7 +325,21 @@ ul {
 }
 
 
+.gray-button {
+    background-color: rgba(128, 128 ,128 , 0.39) ;
+    border: 2px solid rgba(1, 66, 30 , 0.72) ;
+}
 
+.green-button {
+    background-color: rgba(0, 251, 54 , 0.56) ;
+}
 button {
     box-sizing: border-box;
+}
+.namecourse p{
+    -webkit-box-orient: vertical;
+   // -webkit-line-clamp: 1;
+    display: -webkit-box;
+    overflow: hidden;
+    text-decoration: none;
 }

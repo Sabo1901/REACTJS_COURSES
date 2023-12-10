@@ -58,32 +58,34 @@ class CoursePage extends Component {
                             <section class="index-module_row__-AHgh" style={{ marginLeft: '-12px', marginRight: '-12px', display: 'flex', flexWrap: 'wrap' }}>
 
                                 {arrCourses && arrCourses.length > 0 &&
-                                    arrCourses.map((item, index) => {
-                                        let imageBase64 = '';
-                                        if (item.image) {
-                                            imageBase64 = new Buffer(item.image, 'base64').toString('binary');
-                                        }
-                                        let name = ``;
-                                        return (
-                                            <section key={index} class="index-module_col__2EQm9 index-module_c-12__u7UXF index-module_m-4__30Uoi index-module_l-3__MjWvb">
-                                                <div class="CommonItem_wrapper__1FbHi Home_courseItem__aIeZ4" style={{ paddingBottom: '23px' }}>
-                                                    <a class="CommonItem_thumb__ew8Jj CommonItem_has-link__VLLrX" href="#" style={{ backgroundImage: `url(${imageBase64})` }}>
-                                                        <button class="Button_btn__RW1e2 CommonItem_cta-btn__OK+oX"
-                                                            onClick={() => this.handleViewDetailCourse(item)}
-                                                        > Xem khóa học </button>
-                                                    </a>
-                                                    <h3 class="CommonItem_title__EpYrE" style={{ fontWeight: '600', marginTop: '10px' }}>
-                                                        <a href="#">{item.nameCourse}</a>
-                                                    </h3>
-                                                    <div className='lecturers' style={{ color: '#6a6f73' }}>{item.lecturers}</div>
-                                                    <div class="CourseItem_students-count__92kIg">
-                                                        <i class="fa fa-users" aria-hidden="true" style={{ display: 'var(--fa-display, inline-block)', height: '1em', overflow: 'visible', verticalAlign: '-0.125em' }}></i>
-                                                        <span> {item.viewed}</span>
+                                    arrCourses
+                                        .filter(item => item.viewed > 1)
+                                        .map((item, index) => {
+                                            let imageBase64 = '';
+                                            if (item.image) {
+                                                imageBase64 = new Buffer(item.image, 'base64').toString('binary');
+                                            }
+                                            let name = ``;
+                                            return (
+                                                <section key={index} class="index-module_col__2EQm9 index-module_c-12__u7UXF index-module_m-4__30Uoi index-module_l-3__MjWvb">
+                                                    <div class="CommonItem_wrapper__1FbHi Home_courseItem__aIeZ4" style={{ paddingBottom: '23px' }}>
+                                                        <a class="CommonItem_thumb__ew8Jj CommonItem_has-link__VLLrX" href="#" style={{ backgroundImage: `url(${imageBase64})` }}>
+                                                            <button class="Button_btn__RW1e2 CommonItem_cta-btn__OK+oX"
+                                                                onClick={() => this.handleViewDetailCourse(item)}
+                                                            > Xem khóa học </button>
+                                                        </a>
+                                                        <h3 class="CommonItem_title__EpYrE" style={{ fontWeight: '600', marginTop: '10px' }}>
+                                                            <a href="#">{item.nameCourse}</a>
+                                                        </h3>
+                                                        <div className='lecturers' style={{ color: '#6a6f73' }}>{item.lecturers}</div>
+                                                        <div class="CourseItem_students-count__92kIg">
+                                                            <i class="fa fa-users" aria-hidden="true" style={{ display: 'var(--fa-display, inline-block)', height: '1em', overflow: 'visible', verticalAlign: '-0.125em' }}></i>
+                                                            <span> {item.viewed}</span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </section>
-                                        )
-                                    })
+                                                </section>
+                                            )
+                                        })
                                 }
 
 

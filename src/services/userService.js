@@ -1,5 +1,6 @@
 import axios from '../axios';
 
+const apiKey = 'API1';
 
 const handleLoginApi = (email, password) => {
     return axios.post('/api/login', { email, password });
@@ -9,7 +10,7 @@ const handleLoginApiClient = (email, password) => {
 }
 
 const getAllUsers = (inputId) => {
-    return axios.get(`/api/get-all-users?id=${inputId}`)
+    return axios.get(`/api/get-all-users?id=${inputId}`);
 }
 
 const createNewUserService = (data) => {

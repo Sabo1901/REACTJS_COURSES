@@ -58,7 +58,7 @@ class TableManageCourse extends Component {
         }
         return coursesRedux.filter(courses => {
             const lowercasedNameCourse = courses.nameCourse.toString().toLowerCase();
-            const lowercasedDescribe = courses.describe.toString().toLowerCase();
+            const lowercasedDescribe = courses.tantamount.toString().toLowerCase();
             const lowercasedDetail = courses.detail.toString().toLowerCase();
             const lowercasedLecturers = courses.lecturers.toString().toLowerCase();
             const lowercasedSearchKeyword = searchKeyword.toLowerCase();
@@ -94,7 +94,7 @@ class TableManageCourse extends Component {
                                 <th><FormattedMessage id="manage-course.nameCourse" /></th>
                                 <th><FormattedMessage id="manage-course.lecturers" /></th>
                                 <th><FormattedMessage id="manage-course.detail" /></th>
-                                {/* <th><FormattedMessage id="manage-course.describe" /></th> */}
+                                <th>Tín chỉ</th>
                                 {/* <th><FormattedMessage id="manage-course.tantamount" /></th> */}
                                 <th><FormattedMessage id="manage-course.viewed" /></th>
                                 <th><FormattedMessage id="manage-course.action" /></th>
@@ -110,7 +110,7 @@ class TableManageCourse extends Component {
                                                 <td>{item.nameCourse}</td>
                                                 <td>{item.lecturers}</td>
                                                 <td>{item.detail}</td>
-                                                {/* <td>{item.describe}</td> */}
+                                                <td>{item.tantamount}</td>
                                                 {/* <td>{item.tantamount}</td> */}
                                                 <td>{item.viewed}</td>
                                                 <td>

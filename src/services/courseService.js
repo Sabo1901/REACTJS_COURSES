@@ -1,8 +1,9 @@
 import axios from '../axios';
 
+const apiKey = 'API1';
 
 const getAllCourses = (inputId) => {
-    return axios.get(`/api/get-all-courses?id=${inputId}`)
+    return axios.get(`/api/get-all-courses?id=${inputId}`);
 }
 
 const createNewCourseService = (data) => {

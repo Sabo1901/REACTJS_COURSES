@@ -20,7 +20,8 @@ class RoadmapRedux extends Component {
 
             action: '',
             roadmapEditId: '',
-
+            alternativecourse: '',
+            concurrentcourse: '',
             courseId: '',
             scholasticId: '',
             semester: '',
@@ -61,6 +62,8 @@ class RoadmapRedux extends Component {
                 semester: '',
                 credit: '',
                 prerequisite: '',
+                alternativecourse: '',
+                concurrentcourse: '',
                 courseId: arrCourses && arrCourses.length > 0 ? arrCourses[0].id : '',
                 scholasticId: arrScholastics && arrScholastics.length > 0 ? arrScholastics[0].id : '',
                 action: CRUD_ACTIONS.CREATE,
@@ -78,6 +81,8 @@ class RoadmapRedux extends Component {
                 semester: this.state.semester,
                 credit: this.state.credit,
                 prerequisite: this.state.prerequisite,
+                alternativecourse: this.state.alternativecourse,
+                concurrentcourse: this.state.concurrentcourse,
                 courseId: this.state.courseId,
                 scholasticId: this.state.scholasticId,
             })
@@ -88,6 +93,8 @@ class RoadmapRedux extends Component {
                 semester: this.state.semester,
                 credit: this.state.credit,
                 prerequisite: this.state.prerequisite,
+                alternativecourse: this.state.alternativecourse,
+                concurrentcourse: this.state.concurrentcourse,
                 courseId: this.state.courseId,
                 scholasticId: this.state.scholasticId,
             })
@@ -96,7 +103,7 @@ class RoadmapRedux extends Component {
 
     checkValidateInput = () => {
         let isValid = true;
-        let arrCheck = ['courseId', 'scholasticId', 'semester', 'credit', 'prerequisite']
+        let arrCheck = ['courseId', 'scholasticId', 'semester', 'credit']
         for (let i = 0; i < arrCheck.length; i++) {
             if (!this.state[arrCheck[i]]) {
                 isValid = false;
@@ -123,6 +130,8 @@ class RoadmapRedux extends Component {
             semester: roadmap.semester,
             credit: roadmap.credit,
             prerequisite: roadmap.prerequisite,
+            alternativecourse: roadmap.alternativecourse,
+            concurrentcourse: roadmap.concurrentcourse,
             action: CRUD_ACTIONS.EDIT,
             roadmapEditId: roadmap.id
         })
@@ -133,7 +142,7 @@ class RoadmapRedux extends Component {
         let language = this.props.language;
         let courses = this.state.courseArr;
         let scholastics = this.state.scholasticArr;
-        let { courseId, scholasticId, semester, credit, prerequisite } = this.state;
+        let { courseId, scholasticId, semester, credit, prerequisite, alternativecourse, concurrentcourse } = this.state;
 
         return (
 
@@ -196,6 +205,20 @@ class RoadmapRedux extends Component {
                                 <input className='form-control' type='text'
                                     value={prerequisite}
                                     onChange={(event) => { this.onChangeInput(event, 'prerequisite') }}
+                                />
+                            </div>
+                            <div className='col-3' style={{ marginTop: '20px' }}>
+                                <label>HP thay thế</label>
+                                <input className='form-control' type='text'
+                                    value={alternativecourse}
+                                    onChange={(event) => { this.onChangeInput(event, 'alternativecourse') }}
+                                />
+                            </div>
+                            <div className='col-3' style={{ marginTop: '20px' }}>
+                                <label>HP song song</label>
+                                <input className='form-control' type='text'
+                                    value={concurrentcourse}
+                                    onChange={(event) => { this.onChangeInput(event, 'concurrentcourse') }}
                                 />
                             </div>
 
